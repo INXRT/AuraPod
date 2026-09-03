@@ -1,0 +1,100 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-obsidian-950: #04060A;
+    --color-cyan-neon: #00F2FE;
+    --color-emerald-signal: #10B981;
+  }
+
+  body {
+    background-color: #04060A;
+    color: #F8FAFC;
+    overflow-x: hidden;
+  }
+}
+
+/* Custom Cyber Ambient Grid Background */
+.bg-cyber-grid {
+  background-size: 40px 40px;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+}
+
+.bg-radial-glow {
+  background: radial-gradient(circle at 50% 0%, rgba(0, 242, 254, 0.12) 0%, transparent 60%);
+}
+
+.bg-radial-emerald {
+  background: radial-gradient(circle at 50% 50%, rgba(16, 185, 129, 0.10) 0%, transparent 60%);
+}
+
+/* Glassmorphism Classes */
+.glass-panel {
+  background: rgba(13, 19, 32, 0.7);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.glass-panel-hover {
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-panel-hover:hover {
+  background: rgba(19, 27, 45, 0.85);
+  border-color: rgba(0, 242, 254, 0.3);
+  box-shadow: 0 0 30px -5px rgba(0, 242, 254, 0.2);
+}
+
+/* Animated Border Beam */
+.border-beam {
+  position: relative;
+}
+
+.border-beam::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  background: linear-gradient(90deg, transparent, rgba(0, 242, 254, 0.6), transparent);
+  border-radius: inherit;
+  z-index: -1;
+  animation: borderBeam 4s linear infinite;
+}
+
+@keyframes borderBeam {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Screen Shake Animation on Submission Failure */
+@keyframes screenShake {
+  0%, 100% { transform: translateX(0); }
+  15%, 45%, 75% { transform: translateX(-6px); }
+  30%, 60%, 90% { transform: translateX(6px); }
+}
+
+.animate-shake {
+  animation: screenShake 0.4s ease-in-out;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #04060A;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1E293B;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #00F2FE;
+}
