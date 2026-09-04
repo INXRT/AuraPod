@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Radio } from 'lucide-react';
+import { Radio, Smartphone } from 'lucide-react';
 import { AuraPodMesh3D } from './AuraPodMesh3D';
+import { AuraPodRoomMesh3D } from './AuraPodRoomMesh3D';
 import { sound } from '../utils/audioSynthesizer';
 import { KineticTextReveal } from './ui/KineticTextReveal';
+import { AuraPodEdition } from '../types';
 
 interface SubsystemStep {
   id: 'dish' | 'feed' | 'lna' | 'chassis';
@@ -15,7 +17,7 @@ interface SubsystemStep {
   isFolded: boolean;
 }
 
-const subsystems: SubsystemStep[] = [
+const pocketSubsystems: SubsystemStep[] = [
   {
     id: 'dish',
     number: '01',
@@ -25,7 +27,7 @@ const subsystems: SubsystemStep[] = [
       'Two multi-stage telescoping brass and aluminum antennas fold flush into the chassis. When flipped open, they extend into the air to capture weak, scattered 4G, 5G, and Wi-Fi waves with directional beamforming focus.',
     badge: '+12 dBi Gain',
     specs: [
-      { label: 'Architecture', value: '3-Stage Telescopic' },
+      { label: 'Architecture', value: '3-Stage Telescopic Masts' },
       { label: 'Materials', value: 'Space-Titanium & Brass' },
       { label: 'Stowed State', value: 'Flush in Pocket Block' },
     ],
@@ -78,13 +80,105 @@ const subsystems: SubsystemStep[] = [
   },
 ];
 
-export const ScrollHardware3D: React.FC = () => {
+const roomSubsystems: SubsystemStep[] = [
+  {
+    id: 'dish',
+    number: '01',
+    title: 'PARABOLIC METAMATERIAL REFLECTOR',
+    headline: '18-Stage Mathematical Paraboloid (+11.8 dBi Gain)',
+    description:
+      'Engineered like a radio telescope. An origami-folding metallic wireframe grid captures scattered cell and Wi-Fi waves across a wide 120-degree aperture and concentrates them directly into the central focal collector horn.',
+    badge: '+11.8 dBi Gain',
+    specs: [
+      { label: 'Reflector Grid', value: '18-Stage Mathematical Paraboloid' },
+      { label: 'Focus Equation', value: 'z = (x² + y²) / (4 * f)' },
+      { label: 'Coverage Area', value: '120° Multi-Bed Room Blanket' },
+    ],
+    isFolded: false,
+  },
+  {
+    id: 'feed',
+    number: '02',
+    title: 'FOCAL RECEIVER HORN & DIELECTRIC NODE',
+    headline: 'Active Concentrator at Focal Distance f=0.65',
+    description:
+      'Suspended on a rigid focal arm at the exact optical focal point of the dish. The dielectric focal receiver horn gathers concentrated RF energy and routes it with minimal insertion loss directly to the low-noise amplifier.',
+    badge: 'f=0.65 Focal Hub',
+    specs: [
+      { label: 'Collector Horn', value: 'Spherical Dielectric Lens' },
+      { label: 'Impedance Match', value: '50Ω Coaxial Waveguide' },
+      { label: 'Return Loss', value: '>18 dB Across Target Bands' },
+    ],
+    isFolded: false,
+  },
+  {
+    id: 'chassis',
+    number: '03',
+    title: 'CNC ARTICULATED HINGE STRUTS',
+    headline: 'Dual 6061-T6 Aluminum Struts (45° Radar Elevation)',
+    description:
+      'Two CNC-machined titanium struts lock the dish at a precision 45-degree angle toward distant cellular towers. The friction-damped pivot folds completely flat to 12mm thickness for flat storage.',
+    badge: '45° Elevation',
+    specs: [
+      { label: 'Strut Material', value: 'CNC 6061-T6 Aluminum' },
+      { label: 'Elevation Range', value: '0° Flat to 45° Operational' },
+      { label: 'Hinge Resistance', value: 'Friction-Damped Articulated' },
+    ],
+    isFolded: true,
+  },
+  {
+    id: 'lna',
+    number: '04',
+    title: 'ANODIZED BASE POD & 360° HALO BEACON',
+    headline: 'Weighted Desk Pod with Multi-Bed Status Ring',
+    description:
+      'A solid cylindrical base pod provides heavy desk stabilization on dorm tables and windowsills. An integrated 360-degree telemetry status ring emits ambient lock feedback visible to all roommates.',
+    badge: '360° Status Ring',
+    specs: [
+      { label: 'Base Unit', value: 'Anodized Obsidian Aluminum' },
+      { label: 'Desk Stabilization', value: 'High-Mass Anti-Skid Footpad' },
+      { label: 'Continuous Draw', value: '<2.5W Continuous 5V' },
+    ],
+    isFolded: false,
+  },
+];
+
+interface ScrollHardware3DProps {
+  activeEdition?: AuraPodEdition;
+  onSelectEdition?: (edition: AuraPodEdition) => void;
+}
+
+export const ScrollHardware3D: React.FC<ScrollHardware3DProps> = ({
+  activeEdition: parentEdition,
+  onSelectEdition: parentSelectEdition,
+}) => {
+  const [internalEdition, setInternalEdition] = useState<AuraPodEdition>('pocket');
+  const activeEdition = parentEdition || internalEdition;
+
+  const setEdition = (ed: AuraPodEdition) => {
+    if (parentSelectEdition) {
+      parentSelectEdition(ed);
+    } else {
+      setInternalEdition(ed);
+    }
+  };
+
   const [activeStepIndex, setActiveStepIndex] = useState(0);
   const [userFoldOverride, setUserFoldOverride] = useState<boolean | null>(null);
   const stepRefs = useRef<(HTMLDivElement | null)[]>([]);
 
-  const activeSubsystem = subsystems[activeStepIndex];
+  const subsystems = activeEdition === 'pocket' ? pocketSubsystems : roomSubsystems;
+  const activeSubsystem = subsystems[activeStepIndex] || subsystems[0];
   const isFolded = userFoldOverride !== null ? userFoldOverride : activeSubsystem.isFolded;
+
+  // Reset step index when edition changes
+  const handleEditionTab = (ed: AuraPodEdition) => {
+    if (ed === activeEdition) return;
+    sound.playRadarChirp(1.1);
+    setEdition(ed);
+    setActiveStepIndex(0);
+    setUserFoldOverride(null);
+  };
 
   // Scroll detection to update active step
   useEffect(() => {
@@ -99,7 +193,7 @@ export const ScrollHardware3D: React.FC = () => {
         if (elementCenter > windowHeight * 0.2 && elementCenter < windowHeight * 0.8) {
           if (activeStepIndex !== idx) {
             setActiveStepIndex(idx);
-            setUserFoldOverride(null); // Return to step default
+            setUserFoldOverride(null);
             sound.playRadarChirp(0.9 + idx * 0.15);
           }
         }
@@ -129,7 +223,7 @@ export const ScrollHardware3D: React.FC = () => {
     <section id="hardware-3d" className="py-24 px-4 sm:px-8 relative z-10 max-w-6xl mx-auto">
       
       {/* Section Header */}
-      <div className="text-left max-w-3xl mb-16">
+      <div className="text-left max-w-3xl mb-12">
         <div className="font-mono text-xs text-cyan-neon tracking-wider uppercase mb-3 flex items-center gap-3">
           <Radio className="w-3.5 h-3.5" />
           <span>Hardware Engineering</span>
@@ -144,68 +238,123 @@ export const ScrollHardware3D: React.FC = () => {
             distance={16}
           />
         </h2>
-        <p className="text-slate-400 text-sm sm:text-base leading-relaxed">
-          Scroll through the key mechanical and radio subsystems of AuraPod. Drag to rotate and inspect the 3D model from any angle.
+        <p className="text-slate-400 text-sm sm:text-base mb-6">
+          Explore the internal engineering of both AuraPod models. Switch between the ultra-portable **Pocket Edition** and the high-gain **Room Edition** to inspect their components in 3D.
         </p>
+        {/* Subsystem Edition Switcher Tabs */}
+        <div className="inline-flex items-center p-1 bg-obsidian-900 border border-white/10 rounded-xl shadow-inner">
+          <button
+            onClick={() => handleEditionTab('pocket')}
+            className={`px-4 py-2 rounded-lg font-mono text-xs font-semibold transition-all flex items-center gap-2 ${
+              activeEdition === 'pocket'
+                ? 'bg-white text-slate-950 shadow-sm'
+                : 'text-slate-400 hover:text-white'
+            }`}
+          >
+            <Smartphone className="w-3.5 h-3.5" />
+            <span>Pocket Edition Anatomy</span>
+            <span className={`text-[10px] ${activeEdition === 'pocket' ? 'text-slate-700' : 'opacity-60'}`}>(Dual Masts)</span>
+          </button>
+
+          <button
+            onClick={() => handleEditionTab('room')}
+            className={`px-4 py-2 rounded-lg font-mono text-xs font-semibold transition-all flex items-center gap-2 ${
+              activeEdition === 'room'
+                ? 'bg-white text-slate-950 shadow-sm'
+                : 'text-slate-400 hover:text-white'
+            }`}
+          >
+            <Radio className="w-3.5 h-3.5" />
+            <span>Room Edition Anatomy</span>
+            <span className={`text-[10px] ${activeEdition === 'room' ? 'text-slate-700' : 'opacity-60'}`}>(Parabolic Dish)</span>
+          </button>
+        </div>
       </div>
 
-      {/* Split Sticky Layout: Left = Sticky 3D WebGL Viewport | Right = Sequential Scroll Narrative */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start relative">
+      {/* Two-Column Layout: Left Sticky 3D WebGL Canvas, Right Scrollable Narrative Steps */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start relative">
         
-        {/* Left: Sticky 3D Viewport */}
-        <div className="lg:col-span-6 lg:sticky lg:top-24 z-20 text-left">
+        {/* Left: Sticky 3D WebGL Canvas Component */}
+        <div className="lg:col-span-6 sticky top-24 z-20">
           
-          {/* Header Bar */}
-          <div className="flex items-center justify-between pb-3 border-b border-white/15 mb-3 font-mono text-xs">
+          {/* Top Status Header */}
+          <div className="flex items-center justify-between gap-2 pb-3 mb-2 font-mono text-xs border-b border-white/15">
             <div className="flex items-center gap-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-cyan-neon animate-pulse" />
-              <span className="text-white font-bold uppercase tracking-wider">
-                {activeSubsystem.title}
+              <span className="w-2 h-2 rounded-full bg-sky-400" />
+              <span className="text-white font-bold">
+                {activeEdition === 'pocket' ? 'POCKET EDITION' : 'ROOM EDITION'} // PART {activeSubsystem.number}
               </span>
             </div>
-            <span className="px-2.5 py-0.5 rounded bg-cyan-neon/15 border border-cyan-neon/40 text-cyan-neon font-bold text-[10px]">
+            <div className="text-sky-400 font-mono font-medium text-xs">
               {activeSubsystem.badge}
-            </span>
+            </div>
           </div>
 
-          {/* Borderless 3D WebGL Canvas (100% Fully Visible, Zero Box) */}
-          <div className="w-full h-[460px] sm:h-[520px] relative">
-            <AuraPodMesh3D
-              auraPodActive={true}
-              isFolded={isFolded}
-              onToggleFold={undefined}
-              highlightPart={activeSubsystem.id}
-              interactive={true}
-              showBadge={true}
-              className="w-full h-full"
-            />
+          {/* 3D WebGL Canvas with Studio Stage Lighting and Engineering Crosshairs */}
+          <div className="w-full h-[460px] sm:h-[520px] relative rounded-2xl overflow-hidden border border-white/[0.08] bg-gradient-to-b from-white/[0.015] to-obsidian-950/80 shadow-[0_20px_50px_-12px_rgba(0,0,0,0.85)]">
+            {/* Corner Crosshair Datum Markers */}
+            <span className="absolute top-3 left-4 font-mono text-[9px] text-slate-400 select-none pointer-events-none">+ STAGE_02</span>
+            <span className="absolute top-3 right-4 font-mono text-[9px] text-slate-400 select-none pointer-events-none">5600K_CRI98 +</span>
+            <span className="absolute bottom-3 left-4 font-mono text-[9px] text-slate-400 select-none pointer-events-none">+ CALIBRATED</span>
+            <span className="absolute bottom-3 right-4 font-mono text-[9px] text-slate-400 select-none pointer-events-none">HARDWARE_EXPLORER +</span>
+
+            {/* Diffuse Studio Cyclorama Fill */}
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none -z-10">
+              <div className="w-[88%] h-[340px] rounded-full bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.04)_0%,rgba(56,189,248,0.015)_40%,transparent_75%)] blur-[45px]" />
+              <div className="absolute bottom-6 w-[70%] h-[50px] rounded-[100%] bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.03)_0%,rgba(15,23,42,0.85)_55%,transparent_100%)] blur-[14px]" />
+            </div>
+            {activeEdition === 'pocket' ? (
+              <AuraPodMesh3D
+                key="anatomy-pocket"
+                auraPodActive={true}
+                isFolded={isFolded}
+                onToggleFold={undefined}
+                highlightPart={activeSubsystem.id}
+                interactive={true}
+                showBadge={true}
+                className="w-full h-full"
+              />
+            ) : (
+              <AuraPodRoomMesh3D
+                key="anatomy-room"
+                auraPodActive={true}
+                isFolded={isFolded}
+                onToggleFold={undefined}
+                highlightPart={activeSubsystem.id}
+                interactive={true}
+                showBadge={true}
+                className="w-full h-full"
+              />
+            )}
           </div>
 
-          {/* Subsystem Step Navigation Bar (Outside Standalone Buttons) */}
-          <div className="mt-2 pt-3 border-t border-white/15 grid grid-cols-4 gap-2 font-mono text-[10px]">
+          {/* Subsystem Step Switcher Pills */}
+          <div className="grid grid-cols-4 gap-2 pt-4 border-t border-white/10 font-mono text-xs">
             {subsystems.map((sub, idx) => (
               <button
                 key={sub.id}
                 onClick={() => handleStepClick(idx)}
-                className={`py-2 px-2 rounded-lg border-2 transition-all flex flex-col items-center gap-0.5 ${
+                className={`py-2 px-2 rounded-lg border transition-all flex flex-col items-center gap-0.5 ${
                   activeStepIndex === idx
-                    ? 'bg-cyan-neon border-cyan-neon text-obsidian-950 font-black shadow-[2px_2px_0px_#000]'
-                    : 'bg-obsidian-900 border-white/15 text-slate-400 hover:text-white'
+                    ? 'bg-white border-white text-slate-950 font-bold shadow-sm'
+                    : 'bg-obsidian-900/80 border-white/10 text-slate-400 hover:text-white hover:border-white/20'
                 }`}
               >
                 <span className="font-bold">{sub.number}</span>
-                <span className="truncate max-w-[60px] text-[9px] uppercase">{sub.id}</span>
+                <span className="truncate max-w-[65px] text-[9px] uppercase">{sub.id}</span>
               </button>
             ))}
           </div>
 
-          {/* Quick Fold Toggle Button (Kept out standalone) */}
+          {/* Quick Fold Toggle Button */}
           <div className="mt-3 flex items-center justify-between text-[11px] font-mono">
             <button
               onClick={handleToggleFold}
-              className="px-3 py-1 rounded bg-obsidian-900 hover:bg-obsidian-850 border border-white/20 text-slate-300 hover:text-white font-mono text-[10px] font-bold"
+              className="px-3 py-1.5 rounded-lg bg-obsidian-900 hover:bg-obsidian-850 border border-white/15 text-slate-300 hover:text-white font-mono text-[11px] font-medium shadow-sm transition-all"
             >
-              {isFolded ? 'DEPLOY 3D DISH (45°)' : 'FOLD 3D FLAT (12MM)'}
+              {activeEdition === 'pocket'
+                ? (isFolded ? 'Open Antennas' : 'Close to Pocket')
+                : (isFolded ? 'Deploy 45° Dish' : 'Fold Flat (12mm)')}
             </button>
             <span className="text-slate-500">SCROLL TO STEP THROUGH 3D</span>
           </div>
@@ -220,24 +369,24 @@ export const ScrollHardware3D: React.FC = () => {
               <div
                 key={sub.id}
                 ref={(el) => (stepRefs.current[idx] = el)}
-                className={`p-6 sm:p-8 rounded-2xl transition-all duration-500 border-2 ${
+                className={`p-6 sm:p-8 rounded-2xl transition-all duration-300 border ${
                   isActive
-                    ? 'bg-obsidian-950 border-cyan-neon/80 shadow-[6px_6px_0px_#0A0E17,8px_8px_0px_#00F2FE]'
-                    : 'bg-obsidian-900/60 border-white/10 opacity-60 hover:opacity-100 hover:border-white/20'
+                    ? 'bg-obsidian-900/90 border-white/25 shadow-xl ring-1 ring-white/10'
+                    : 'bg-obsidian-900/40 border-white/10 opacity-60 hover:opacity-90 hover:border-white/20'
                 }`}
               >
                 {/* Step Index & Badge */}
                 <div className="flex items-center justify-between gap-4 mb-4 font-mono text-xs">
                   <div className="flex items-center gap-2">
-                    <span className="px-2.5 py-1 rounded bg-obsidian-900 border border-white/20 text-cyan-neon font-black text-sm">
+                    <span className="px-2.5 py-1 rounded bg-obsidian-950 border border-white/15 text-cyan-neon font-bold text-sm">
                       {sub.number}
                     </span>
-                    <span className="text-slate-400 font-bold uppercase tracking-wider text-[11px]">
+                    <span className="text-slate-400 font-medium uppercase tracking-wider text-[11px]">
                       {sub.title}
                     </span>
                   </div>
 
-                  <span className="px-2.5 py-1 rounded bg-cyan-neon/15 border border-cyan-neon/40 text-cyan-neon font-mono text-xs font-bold shadow-[2px_2px_0px_#000]">
+                  <span className="px-2.5 py-1 rounded bg-white/5 border border-white/10 text-slate-300 font-mono text-xs font-medium">
                     {sub.badge}
                   </span>
                 </div>
@@ -252,8 +401,8 @@ export const ScrollHardware3D: React.FC = () => {
                   {sub.description}
                 </p>
 
-                {/* Technical Specifications Grid (10% Neobrutalist Table) */}
-                <div className="border-2 border-white/10 rounded-xl overflow-hidden divide-y divide-white/10 font-mono text-xs bg-obsidian-950 shadow-[2px_2px_0px_#000]">
+                {/* Technical Specifications Grid */}
+                <div className="border border-white/10 rounded-xl overflow-hidden divide-y divide-white/10 font-mono text-xs bg-obsidian-950/70 shadow-sm">
                   {sub.specs.map((spec, sIdx) => (
                     <div key={sIdx} className="flex justify-between items-center p-3">
                       <span className="text-slate-400">{spec.label}:</span>

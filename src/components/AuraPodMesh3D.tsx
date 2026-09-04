@@ -52,48 +52,84 @@ export const AuraPodMesh3D: React.FC<AuraPodMesh3DProps> = ({
     camera.position.set(0, 0.75, 4.7);
     camera.lookAt(0, 0.42, 0);
 
-    // 3. Renderer setup
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    // 3. Renderer setup - Professional Studio Color Science
+    const renderer = new THREE.WebGLRenderer({
+      antialias: true,
+      alpha: true,
+      powerPreference: 'high-performance',
+    });
     renderer.setSize(width, height);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.25;
+    renderer.toneMappingExposure = 1.32;
     container.appendChild(renderer.domElement);
 
-    // 4. Studio Lighting Rig
-    const ambientLight = new THREE.AmbientLight(0x1e293b, 3.6);
-    scene.add(ambientLight);
+    // 4. Professional Photographic Studio Lighting Rig (High-CRI Multi-Point Setup)
+    // A. Natural Atmospheric Sky/Ground Irradiance Gradient (eliminates flat milky ambient haze)
+    const hemiLight = new THREE.HemisphereLight(0xf8fafc, 0x080d1a, 0.7);
+    scene.add(hemiLight);
 
-    const keyLight = new THREE.DirectionalLight(0x00f2fe, 3.4);
-    keyLight.position.set(3, 6, 4);
+    // B. Primary Studio Key Softbox (5600K daylight key with soft physical shadow casting)
+    const keyLight = new THREE.DirectionalLight(0xfffbf5, 3.6);
+    keyLight.position.set(3.8, 7.5, 4.8);
+    keyLight.castShadow = true;
+    keyLight.shadow.mapSize.width = 2048;
+    keyLight.shadow.mapSize.height = 2048;
+    keyLight.shadow.camera.near = 1.0;
+    keyLight.shadow.camera.far = 16;
+    keyLight.shadow.camera.left = -2.5;
+    keyLight.shadow.camera.right = 2.5;
+    keyLight.shadow.camera.top = 2.5;
+    keyLight.shadow.camera.bottom = -2.5;
+    keyLight.shadow.bias = -0.0006;
+    keyLight.shadow.radius = 2.4;
     scene.add(keyLight);
 
-    const rimLight = new THREE.DirectionalLight(0x10b981, 2.6);
-    rimLight.position.set(-4, 4, -3);
+    // C. Top Overhead CNC Chamfer Specular (Direct overhead high-luminance strip light)
+    const topSpecular = new THREE.DirectionalLight(0xffffff, 2.2);
+    topSpecular.position.set(-0.5, 8.5, 1.2);
+    scene.add(topSpecular);
+
+    // D. Lateral Soft Fill Softbox (Maintains dark shadow gradients without flattening)
+    const fillLight = new THREE.DirectionalLight(0x64748b, 0.95);
+    fillLight.position.set(-4.5, 2.0, 3.0);
+    scene.add(fillLight);
+
+    // E. Razor-Sharp Cool Silhouette Rim Kicker (Back-left edge separation against dark backgrounds)
+    const rimLight = new THREE.DirectionalLight(0x93c5fd, 2.4);
+    rimLight.position.set(-3.8, 4.5, -4.5);
     scene.add(rimLight);
 
-    const frontFill = new THREE.DirectionalLight(0x38bdf8, 3.2);
-    frontFill.position.set(0, 1.5, 4.5);
-    scene.add(frontFill);
+    // F. Secondary Warm Edge Accent (Back-right contour separation)
+    const rimAccent = new THREE.DirectionalLight(0xf8fafc, 1.2);
+    rimAccent.position.set(4.0, 3.0, -3.5);
+    scene.add(rimAccent);
 
-    const sideRim = new THREE.DirectionalLight(0x60a5fa, 2.2);
-    sideRim.position.set(4, 0.2, 2);
-    scene.add(sideRim);
+    // G. Studio Stage Ground Bounce (Upward reflection from matte floor)
+    const floorBounce = new THREE.DirectionalLight(0x1e293b, 0.55);
+    floorBounce.position.set(0, -6, 1.5);
+    scene.add(floorBounce);
 
-    // Dedicated Interior Chassis Backlight (Glows when lid opens!)
-    const interiorLight = new THREE.PointLight(0x00f2fe, 0.0, 2.5);
-    interiorLight.position.set(0, 0.25, 0.1);
+    // H. Dedicated Internal Chassis Cavity Glow (Illuminates gold traces when lid flips open)
+    const interiorLight = new THREE.PointLight(0x38bdf8, 0.0, 2.2, 1.8);
+    interiorLight.position.set(0, 0.22, 0.08);
     scene.add(interiorLight);
-
-    const baseUnderPoint = new THREE.PointLight(0x00f2fe, 2.2, 3.5);
-    baseUnderPoint.position.set(0, -0.4, 0.5);
-    scene.add(baseUnderPoint);
 
     // 5. Build AuraPod Pocket Block Hardware Group
     const productGroup = new THREE.Group();
     productGroup.position.set(0, -0.22, 0);
     scene.add(productGroup);
+
+    // Physical Contact Shadow Ground Receiver Plane
+    const shadowPlaneGeo = new THREE.PlaneGeometry(6, 6);
+    const shadowPlaneMat = new THREE.ShadowMaterial({ opacity: 0.45 });
+    const shadowPlane = new THREE.Mesh(shadowPlaneGeo, shadowPlaneMat);
+    shadowPlane.rotation.x = -Math.PI / 2;
+    shadowPlane.position.y = -0.26;
+    shadowPlane.receiveShadow = true;
+    productGroup.add(shadowPlane);
 
     // Helper: Rounded rectangle shape for pocket-sized block
     const createRoundedRectShape = (w: number, l: number, r: number) => {
@@ -119,33 +155,33 @@ export const AuraPodMesh3D: React.FC<AuraPodMesh3DProps> = ({
     const baseHeight = 0.18;
 
     const chassisMat = new THREE.MeshStandardMaterial({
-      color: 0x162032, // Anodized Space-Titanium
-      roughness: 0.35,
-      metalness: 0.85,
+      color: 0x131a26, // Anodized Space-Titanium
+      roughness: 0.28,
+      metalness: 0.88,
     });
 
     const bezelMat = new THREE.MeshStandardMaterial({
-      color: 0x475569, // Machined Aluminum 6061
-      roughness: 0.2,
-      metalness: 0.95,
+      color: 0x64748b, // Machined Aluminum 6061-T6
+      roughness: 0.16,
+      metalness: 0.94,
     });
 
     const brassMat = new THREE.MeshStandardMaterial({
       color: 0xd97706, // Immersion Gold (ENIG) RF Contacts
-      metalness: 0.92,
-      roughness: 0.2,
+      metalness: 0.94,
+      roughness: 0.16,
     });
 
     const chromeMat = new THREE.MeshStandardMaterial({
-      color: 0xf1f5f9, // Polished Chrome
+      color: 0xffffff, // Polished Chrome Steel
       metalness: 0.98,
-      roughness: 0.1,
+      roughness: 0.06,
     });
 
     const rfShieldMat = new THREE.MeshStandardMaterial({
-      color: 0x94a3b8, // Tin-Plated RF Shield Can
-      roughness: 0.15,
-      metalness: 0.9,
+      color: 0xa1a1aa, // Tin-Plated RF Shield Can
+      roughness: 0.18,
+      metalness: 0.92,
     });
 
     const icBlackMat = new THREE.MeshStandardMaterial({
@@ -155,9 +191,9 @@ export const AuraPodMesh3D: React.FC<AuraPodMesh3DProps> = ({
     });
 
     const gasketMat = new THREE.MeshStandardMaterial({
-      color: 0x0f172a, // Waterproof Neoprene Gasket
+      color: 0x090e1a, // Waterproof Neoprene Gasket
       roughness: 0.85,
-      metalness: 0.1,
+      metalness: 0.05,
     });
 
     // -------------------------------------------------------------
@@ -177,6 +213,8 @@ export const AuraPodMesh3D: React.FC<AuraPodMesh3DProps> = ({
     const baseMesh = new THREE.Mesh(baseGeo, chassisMat);
     baseMesh.rotation.x = Math.PI / 2;
     baseMesh.position.set(0, 0, 0);
+    baseMesh.castShadow = true;
+    baseMesh.receiveShadow = true;
     productGroup.add(baseMesh);
 
     // Aluminum Perimeter Chamfer Band
@@ -186,13 +224,15 @@ export const AuraPodMesh3D: React.FC<AuraPodMesh3DProps> = ({
     const waistMesh = new THREE.Mesh(waistGeo, bezelMat);
     waistMesh.rotation.x = Math.PI / 2;
     waistMesh.position.set(0, 0, 0);
+    waistMesh.castShadow = true;
+    waistMesh.receiveShadow = true;
     productGroup.add(waistMesh);
 
     // Front Edge: 4 Micro-LED Signal Strength Dots (1 -> 2 -> 3 -> 4 meter)
     const frontLeds: THREE.Mesh[] = [];
     const ledGeo = new THREE.SphereGeometry(0.022, 12, 12);
     for (let i = -1.5; i <= 1.5; i++) {
-      const dotMat = new THREE.MeshBasicMaterial({ color: 0x00f2fe });
+      const dotMat = new THREE.MeshBasicMaterial({ color: 0x38bdf8 });
       const dot = new THREE.Mesh(ledGeo, dotMat);
       dot.position.set(i * 0.11, 0, blockLength / 2 + 0.04);
       productGroup.add(dot);
@@ -201,7 +241,7 @@ export const AuraPodMesh3D: React.FC<AuraPodMesh3DProps> = ({
 
     // Front Status Cyan Lightbar Strip
     const lightBarGeo = new THREE.BoxGeometry(0.55, 0.016, 0.02);
-    const lightBarMat = new THREE.MeshBasicMaterial({ color: 0x00f2fe, transparent: true, opacity: 0.85 });
+    const lightBarMat = new THREE.MeshBasicMaterial({ color: 0x38bdf8, transparent: true, opacity: 0.85 });
     const lightBar = new THREE.Mesh(lightBarGeo, lightBarMat);
     lightBar.position.set(0, 0.04, blockLength / 2 + 0.04);
     productGroup.add(lightBar);
@@ -234,6 +274,7 @@ export const AuraPodMesh3D: React.FC<AuraPodMesh3DProps> = ({
     const pcbMesh = new THREE.Mesh(pcbGeo, pcbMat);
     pcbMesh.rotation.x = -Math.PI / 2;
     pcbMesh.position.set(0, 0.108, 0);
+    pcbMesh.receiveShadow = true;
     productGroup.add(pcbMesh);
 
     // 2. Gold Immersion (ENIG) RF Microstrip Waveguide Traces
@@ -255,15 +296,17 @@ export const AuraPodMesh3D: React.FC<AuraPodMesh3DProps> = ({
     const rfCanGeo = new THREE.BoxGeometry(0.36, 0.038, 0.38);
     const rfCan = new THREE.Mesh(rfCanGeo, rfShieldMat);
     rfCan.position.set(0, 0.128, -0.02);
+    rfCan.castShadow = true;
+    rfCan.receiveShadow = true;
     productGroup.add(rfCan);
 
     // Laser-etched text/emblem on top of RF shield can
     const canEmblemGeo = new THREE.PlaneGeometry(0.26, 0.26);
     const canEmblemMat = new THREE.MeshBasicMaterial({
-      color: 0x00f2fe,
+      color: 0x38bdf8,
       wireframe: true,
       transparent: true,
-      opacity: 0.5,
+      opacity: 0.4,
       side: THREE.DoubleSide,
     });
     const canEmblem = new THREE.Mesh(canEmblemGeo, canEmblemMat);
@@ -276,12 +319,14 @@ export const AuraPodMesh3D: React.FC<AuraPodMesh3DProps> = ({
     const mcuGeo = new THREE.BoxGeometry(0.18, 0.025, 0.18);
     const mcuChip = new THREE.Mesh(mcuGeo, icBlackMat);
     mcuChip.position.set(-0.22, 0.12, -0.22);
+    mcuChip.castShadow = true;
     productGroup.add(mcuChip);
 
     // Crystal Oscillator (Silver metallic can)
     const crystalGeo = new THREE.BoxGeometry(0.1, 0.02, 0.06);
     const crystal = new THREE.Mesh(crystalGeo, chromeMat);
     crystal.position.set(-0.22, 0.12, -0.34);
+    crystal.castShadow = true;
     productGroup.add(crystal);
 
     // Row of SMD decoupling capacitors (Tantalum Gold & Ceramic)
@@ -356,6 +401,8 @@ export const AuraPodMesh3D: React.FC<AuraPodMesh3DProps> = ({
     const barrelGeo = new THREE.CylinderGeometry(0.045, 0.045, blockWidth * 0.75, 24);
     const barrelMesh = new THREE.Mesh(barrelGeo, bezelMat);
     barrelMesh.rotation.z = Math.PI / 2;
+    barrelMesh.castShadow = true;
+    barrelMesh.receiveShadow = true;
     hingePivot.add(barrelMesh);
 
     // -------------------------------------------------------------
@@ -377,6 +424,8 @@ export const AuraPodMesh3D: React.FC<AuraPodMesh3DProps> = ({
     const lidMesh = new THREE.Mesh(lidGeo, chassisMat);
     lidMesh.position.set(0, 0.05, blockLength / 2 - 0.08);
     lidMesh.rotation.x = -Math.PI / 2;
+    lidMesh.castShadow = true;
+    lidMesh.receiveShadow = true;
     lidAssembly.add(lidMesh);
 
     // Exterior accent stripe on outer lid
@@ -403,10 +452,10 @@ export const AuraPodMesh3D: React.FC<AuraPodMesh3DProps> = ({
     // 2. Laser-etched Technical Specifications Decal
     const specDecalGeo = new THREE.PlaneGeometry(blockWidth * 0.68, blockLength * 0.55);
     const specDecalMat = new THREE.MeshBasicMaterial({
-      color: 0x00f2fe,
+      color: 0x38bdf8,
       wireframe: true,
       transparent: true,
-      opacity: 0.45,
+      opacity: 0.35,
       side: THREE.DoubleSide,
     });
     const specDecal = new THREE.Mesh(specDecalGeo, specDecalMat);
@@ -433,6 +482,8 @@ export const AuraPodMesh3D: React.FC<AuraPodMesh3DProps> = ({
       const knuckleGeo = new THREE.CylinderGeometry(0.048, 0.048, 0.085, 20);
       const knuckle = new THREE.Mesh(knuckleGeo, bezelMat);
       knuckle.rotation.z = Math.PI / 2;
+      knuckle.castShadow = true;
+      knuckle.receiveShadow = true;
       root.add(knuckle);
 
       const brassPinGeo = new THREE.CylinderGeometry(0.022, 0.022, 0.095, 16);
@@ -445,6 +496,8 @@ export const AuraPodMesh3D: React.FC<AuraPodMesh3DProps> = ({
       const s1Geo = new THREE.CylinderGeometry(0.036, 0.042, s1Len, 20);
       s1Geo.translate(0, s1Len / 2, 0);
       const s1 = new THREE.Mesh(s1Geo, chassisMat);
+      s1.castShadow = true;
+      s1.receiveShadow = true;
       root.add(s1);
 
       // Gold knurled accent ring
@@ -462,6 +515,8 @@ export const AuraPodMesh3D: React.FC<AuraPodMesh3DProps> = ({
       const s2Geo = new THREE.CylinderGeometry(0.026, 0.032, s2Len, 20);
       s2Geo.translate(0, s2Len / 2, 0);
       const s2 = new THREE.Mesh(s2Geo, bezelMat);
+      s2.castShadow = true;
+      s2.receiveShadow = true;
       s2Group.add(s2);
 
       // Etched RF Calibration band
@@ -479,6 +534,7 @@ export const AuraPodMesh3D: React.FC<AuraPodMesh3DProps> = ({
       const s3Geo = new THREE.CylinderGeometry(0.015, 0.022, s3Len, 20);
       s3Geo.translate(0, s3Len / 2, 0);
       const s3 = new THREE.Mesh(s3Geo, chromeMat);
+      s3.castShadow = true;
       s3Group.add(s3);
 
       // Sensor Beacon Top Assembly
@@ -490,16 +546,17 @@ export const AuraPodMesh3D: React.FC<AuraPodMesh3DProps> = ({
       const chokeGeo = new THREE.CylinderGeometry(0.036, 0.024, 0.04, 16);
       const choke = new THREE.Mesh(chokeGeo, brassMat);
       choke.position.y = 0.02;
+      choke.castShadow = true;
       beaconGroup.add(choke);
 
-      // Glowing Cyan Optical Beacon Lens
+      // Calibrated Optical Beacon Lens (Physical indicator diode)
       const tipGeo = new THREE.SphereGeometry(0.042, 20, 20);
       const tipMat = new THREE.MeshStandardMaterial({
-        color: 0x00f2fe,
-        emissive: 0x00f2fe,
-        emissiveIntensity: 0.9,
-        roughness: 0.1,
-        metalness: 0.4,
+        color: 0x38bdf8,
+        emissive: 0x0284c7,
+        emissiveIntensity: 0.5,
+        roughness: 0.2,
+        metalness: 0.2,
       });
       const tip = new THREE.Mesh(tipGeo, tipMat);
       tip.position.y = 0.05;
@@ -507,7 +564,7 @@ export const AuraPodMesh3D: React.FC<AuraPodMesh3DProps> = ({
 
       // Dual Fresnel Halo Rings
       const halo1Geo = new THREE.TorusGeometry(0.065, 0.007, 12, 24);
-      const haloMat = new THREE.MeshBasicMaterial({ color: 0x00f2fe, transparent: true, opacity: 0.85 });
+      const haloMat = new THREE.MeshBasicMaterial({ color: 0x38bdf8, transparent: true, opacity: 0.7 });
       const halo1 = new THREE.Mesh(halo1Geo, haloMat);
       halo1.position.y = 0.05;
       halo1.rotation.x = Math.PI / 2;
@@ -519,7 +576,7 @@ export const AuraPodMesh3D: React.FC<AuraPodMesh3DProps> = ({
       halo2.rotation.x = Math.PI / 2;
       beaconGroup.add(halo2);
 
-      // 6. Individual Mini Curved Signal Waves (small, distinct dome arcs directly atop this antenna tip)
+      // 6. Individual Mini Curved Signal Waves (delicate, authentic RF propagation arcs)
       const miniWaveGroup = new THREE.Group();
       beaconGroup.add(miniWaveGroup);
       const waves: { mesh: THREE.Mesh; mat: THREE.MeshBasicMaterial; offset: number }[] = [];
@@ -534,7 +591,7 @@ export const AuraPodMesh3D: React.FC<AuraPodMesh3DProps> = ({
         );
         const geo = new THREE.TubeGeometry(curve, 20, 0.005, 6, false);
         const mat = new THREE.MeshBasicMaterial({
-          color: 0x00f2fe,
+          color: 0x38bdf8,
           transparent: true,
           opacity: 0.0,
         });
@@ -790,14 +847,14 @@ export const AuraPodMesh3D: React.FC<AuraPodMesh3DProps> = ({
         oledCtx.fillStyle = '#030712';
         oledCtx.fillRect(0, 0, 512, 256);
 
-        // Neon border & Grid lines
-        oledCtx.strokeStyle = 'rgba(0, 242, 254, 0.4)';
+        // High-contrast OLED border & Grid lines
+        oledCtx.strokeStyle = 'rgba(56, 189, 248, 0.45)';
         oledCtx.lineWidth = 4;
         oledCtx.strokeRect(6, 6, 500, 244);
 
         // Header Title
         oledCtx.font = 'bold 24px monospace';
-        oledCtx.fillStyle = '#00f2fe';
+        oledCtx.fillStyle = '#38bdf8';
         oledCtx.fillText('AURAPOD AP-1 • LNA ACTIVE', 24, 42);
 
         // Frequency & Carrier
@@ -814,14 +871,14 @@ export const AuraPodMesh3D: React.FC<AuraPodMesh3DProps> = ({
         const isLocked = !folded && ext > 0.85;
         const sigStep = isLocked ? (Math.floor(elapsed * 1.0) % 3) + 1 : 0; // 1, 2, 3
         const sigBarsText = isLocked ? '█'.repeat(sigStep) + '░'.repeat(3 - sigStep) : '░░░';
-        oledCtx.fillStyle = isLocked ? '#10b981' : '#ef4444';
+        oledCtx.fillStyle = isLocked ? '#22c55e' : '#ef4444';
         oledCtx.font = 'bold 22px monospace';
         oledCtx.fillText(isLocked ? `SIGNAL ${sigBarsText} • LOCKED` : 'SIGNAL ░░░ • STANDBY', 24, 162);
 
         // Live Animated Waveform Bars
         for (let b = 0; b < 24; b++) {
           const barHeight = isLocked ? Math.abs(Math.sin(elapsed * 2 + b * 0.4)) * 48 + 8 : 6;
-          oledCtx.fillStyle = isLocked ? '#00f2fe' : '#475569';
+          oledCtx.fillStyle = isLocked ? '#38bdf8' : '#475569';
           oledCtx.fillRect(24 + b * 19, 230 - barHeight, 13, barHeight);
         }
 
@@ -842,12 +899,12 @@ export const AuraPodMesh3D: React.FC<AuraPodMesh3DProps> = ({
             wave.mesh.position.y = cycle * 0.08; // Delicate micro-elevation directly above the tip
 
             const alpha = Math.sin(cycle * Math.PI);
-            wave.mat.opacity = Math.max(0, alpha * 0.85);
+            wave.mat.opacity = Math.max(0, alpha * 0.7);
 
             if (cycle < 0.5) {
-              wave.mat.color.setHex(0x00f2fe);
+              wave.mat.color.setHex(0x38bdf8);
             } else {
-              wave.mat.color.setHex(0x10b981);
+              wave.mat.color.setHex(0x22c55e);
             }
           });
         });
@@ -869,14 +926,14 @@ export const AuraPodMesh3D: React.FC<AuraPodMesh3DProps> = ({
         frontLeds.forEach((dot, dotIdx) => {
           const dMat = dot.material as THREE.MeshBasicMaterial;
           if (dotIdx <= step) {
-            dMat.color.setHex(0x00f2fe);
+            dMat.color.setHex(0x38bdf8);
           } else {
             dMat.color.setHex(0x0f172a);
           }
         });
       } else {
         frontLeds.forEach((dot) => {
-          (dot.material as THREE.MeshBasicMaterial).color.setHex(0x334155);
+          (dot.material as THREE.MeshBasicMaterial).color.setHex(0x1e293b);
         });
       }
 
@@ -884,22 +941,19 @@ export const AuraPodMesh3D: React.FC<AuraPodMesh3DProps> = ({
       const isBeaconActive = isFullyLocked;
       if (isBeaconActive) {
         const pulse = 0.5 + Math.sin(elapsed * 3) * 0.5;
-        lightBarMat.color.setHex(0x00f2fe);
-        lightBarMat.opacity = 0.6 + pulse * 0.35;
-
-        leftAntenna.tipMat.color.setHex(0x00f2fe);
-        leftAntenna.tipMat.emissiveIntensity = 0.9 + pulse * 0.6;
-        leftAntenna.haloMat.opacity = 0.6 + pulse * 0.4;
-
-        rightAntenna.tipMat.color.setHex(0x00f2fe);
-        rightAntenna.tipMat.emissiveIntensity = 0.9 + pulse * 0.6;
-        rightAntenna.haloMat.opacity = 0.6 + pulse * 0.4;
-
-        baseUnderPoint.color.setHex(0x00f2fe);
-        baseUnderPoint.intensity = 1.8 + pulse * 1.0;
-      } else {
-        const standbyPulse = 0.3 + Math.sin(elapsed * 1.2) * 0.2;
         lightBarMat.color.setHex(0x38bdf8);
+        lightBarMat.opacity = 0.5 + pulse * 0.25;
+
+        leftAntenna.tipMat.color.setHex(0x38bdf8);
+        leftAntenna.tipMat.emissiveIntensity = 0.4 + pulse * 0.3;
+        leftAntenna.haloMat.opacity = 0.4 + pulse * 0.3;
+
+        rightAntenna.tipMat.color.setHex(0x38bdf8);
+        rightAntenna.tipMat.emissiveIntensity = 0.4 + pulse * 0.3;
+        rightAntenna.haloMat.opacity = 0.4 + pulse * 0.3;
+      } else {
+        const standbyPulse = 0.2 + Math.sin(elapsed * 1.2) * 0.15;
+        lightBarMat.color.setHex(0x64748b);
         lightBarMat.opacity = standbyPulse;
 
         leftAntenna.tipMat.color.setHex(0x334155);
@@ -909,14 +963,11 @@ export const AuraPodMesh3D: React.FC<AuraPodMesh3DProps> = ({
         rightAntenna.tipMat.color.setHex(0x334155);
         rightAntenna.tipMat.emissiveIntensity = 0.0;
         rightAntenna.haloMat.opacity = 0.0;
-
-        baseUnderPoint.color.setHex(0x38bdf8);
-        baseUnderPoint.intensity = 0.6;
       }
 
       if (part === 'dish') {
-        leftAntenna.tipMat.emissiveIntensity = 1.8;
-        rightAntenna.tipMat.emissiveIntensity = 1.8;
+        leftAntenna.tipMat.emissiveIntensity = 1.0;
+        rightAntenna.tipMat.emissiveIntensity = 1.0;
       }
 
       renderer.render(scene, camera);
@@ -942,14 +993,24 @@ export const AuraPodMesh3D: React.FC<AuraPodMesh3DProps> = ({
   }, [interactive]);
 
   return (
-    <div className={`relative ${className} select-none`}>
-      <div ref={mountRef} className="w-full h-full cursor-grab active:cursor-grabbing" />
+    <div className={`relative ${className} select-none overflow-hidden`}>
+      {/* High-End Studio Cyclorama Environment & Pedestal Lighting */}
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none -z-10">
+        {/* Overhead studio softbox cone wash */}
+        <div className="w-[85%] max-w-[560px] h-[340px] rounded-full bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.035)_0%,rgba(56,189,248,0.015)_45%,transparent_75%)] blur-[40px]" />
+        {/* Illuminated studio pedestal table wash */}
+        <div className="absolute bottom-6 w-[70%] max-w-[420px] h-[55px] rounded-[100%] bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.03)_0%,rgba(15,23,42,0.8)_60%,transparent_100%)] blur-[14px]" />
+        {/* Physical contact shadow anchor */}
+        <div className="absolute bottom-7 w-[46%] max-w-[280px] h-[22px] rounded-[100%] bg-black/85 blur-[12px]" />
+      </div>
+
+      <div ref={mountRef} className="w-full h-full cursor-grab active:cursor-grabbing relative z-10" />
       
       {/* 3D Interactivity Prompt Tag */}
       {showBadge && (
-        <div className="absolute bottom-2 right-4 px-2.5 py-1 rounded bg-black/60 border border-white/10 font-mono text-[10px] text-slate-400 pointer-events-none flex items-center gap-1.5 backdrop-blur-md">
-          <span className="w-1.5 h-1.5 rounded-full bg-cyan-neon animate-pulse" />
-          <span>Drag to inspect in 3D</span>
+        <div className="absolute bottom-2.5 right-4 px-2.5 py-1 rounded bg-obsidian-900/85 border border-white/12 font-mono text-[10px] text-slate-300 pointer-events-none flex items-center gap-1.5 backdrop-blur-md shadow-sm">
+          <span className="w-1.5 h-1.5 rounded-full bg-sky-400" />
+          <span>Drag to inspect 3D hardware</span>
         </div>
       )}
 

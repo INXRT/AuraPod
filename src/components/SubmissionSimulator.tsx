@@ -194,22 +194,22 @@ Status:             ON-TIME SUBMISSION VERIFIED
         </p>
       </div>
 
-      {/* Simulator Chassis */}
+      {/* Simulator Chassis - Precision RF Testbed Instrument */}
       <div
-        className={`rounded-2xl bg-obsidian-950 border-2 transition-all duration-300 overflow-hidden ${
+        className={`rounded-2xl bg-obsidian-950 border transition-all duration-300 overflow-hidden shadow-card-elevation ${
           auraPodActive
-            ? 'border-emerald-signal/60 shadow-[6px_6px_0px_#0A0E17,8px_8px_0px_#10B981]'
-            : 'border-crimson-hazard/60 shadow-[6px_6px_0px_#0A0E17,8px_8px_0px_#EF4444]'
+            ? 'border-emerald-500/40'
+            : 'border-rose-500/40'
         } ${shakeScreen ? 'animate-shake' : ''}`}
       >
         
         {/* Hardware Header Bar */}
-        <div className="px-5 py-3 bg-obsidian-900 border-b-2 border-white/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 font-mono text-xs">
+        <div className="px-5 py-3 bg-obsidian-900 border-b border-white/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 font-mono text-xs">
           <div className="flex items-center gap-3">
             <div className="flex items-center gap-1.5">
-              <span className="w-3 h-3 rounded-sm bg-crimson-hazard border border-crimson-hazard/80" />
-              <span className="w-3 h-3 rounded-sm bg-amber-400 border border-amber-400/80" />
-              <span className="w-3 h-3 rounded-sm bg-emerald-signal border border-emerald-signal/80" />
+              <span className="w-2.5 h-2.5 rounded-full bg-crimson-hazard/80" />
+              <span className="w-2.5 h-2.5 rounded-full bg-amber-400/80" />
+              <span className="w-2.5 h-2.5 rounded-full bg-emerald-signal/80" />
             </div>
             <span className="text-slate-400 text-[11px] font-mono border-l border-white/10 pl-3">
               portal.university.edu/courses/cs402/assignments/final
@@ -217,7 +217,7 @@ Status:             ON-TIME SUBMISSION VERIFIED
           </div>
 
           {/* Retro Digital LED Segmented Countdown Display */}
-          <div className="flex items-center gap-2 px-3 py-1 rounded bg-black border border-crimson-hazard/80 text-crimson-hazard font-mono text-xs font-black tracking-wider shadow-[2px_2px_0px_#EF4444]">
+          <div className="flex items-center gap-2 px-3 py-1 rounded bg-black/80 border border-rose-500/40 text-rose-400 font-mono text-xs font-bold tracking-wider shadow-sm">
             <Clock className="w-3.5 h-3.5 animate-pulse" />
             <span>DEADLINE IN: 00:00:{secondsLeft < 10 ? `0${secondsLeft}` : secondsLeft}</span>
           </div>
@@ -225,8 +225,8 @@ Status:             ON-TIME SUBMISSION VERIFIED
 
         <div className="p-6 sm:p-8 space-y-6 text-left">
           
-          {/* Tactile Mode Switcher Bay (Neobrutalist Card) */}
-          <div className="p-4 rounded-xl bg-obsidian-900 border-2 border-white/15 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-[4px_4px_0px_#0F172A]">
+          {/* Tactile Mode Switcher Bay */}
+          <div className="p-4 rounded-xl bg-obsidian-900/80 border border-white/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-sm">
             <div>
               <div className="text-[10px] font-mono uppercase text-slate-400 tracking-wider">
                 ACTIVE TESTBED ENVIRONMENT
@@ -234,28 +234,28 @@ Status:             ON-TIME SUBMISSION VERIFIED
               <div className="text-sm font-mono font-bold text-white flex items-center gap-2 mt-1">
                 {auraPodActive ? (
                   <>
-                    <span className="w-2.5 h-2.5 rounded-full bg-emerald-signal animate-pulse" />
+                    <span className="w-2 h-2 rounded-full bg-emerald-signal" />
                     <span className="text-emerald-signal font-bold">AuraPod Active (+11.8 dBi Focused • 0% Packet Loss)</span>
                   </>
                 ) : (
                   <>
-                    <span className="w-2.5 h-2.5 rounded-full bg-crimson-hazard" />
-                    <span className="text-crimson-hazard font-bold">Hostel Corner Room (1 Bar • -32 dB Rebar Attenuation)</span>
+                    <span className="w-2 h-2 rounded-full bg-crimson-hazard" />
+                    <span className="text-rose-400 font-bold">Hostel Corner Room (1 Bar • -32 dB Rebar Attenuation)</span>
                   </>
                 )}
               </div>
             </div>
 
-            {/* Clicky Neobrutalist Mode Switch Button */}
+            {/* Tactile Mode Switch Button */}
             <button
               onClick={() => {
                 sound.playToggleClick();
                 onToggleAuraPod();
               }}
-              className={`px-4 py-2.5 rounded-lg text-xs font-mono font-black tracking-wide border-2 transition-all ${
+              className={`px-4 py-2 rounded-lg text-xs font-mono font-semibold tracking-wide border transition-all shadow-sm active:scale-[0.98] ${
                 auraPodActive
-                  ? 'bg-obsidian-950 border-emerald-signal text-emerald-signal shadow-[3px_3px_0px_#10B981] hover:translate-x-[-1px] hover:translate-y-[-1px] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none'
-                  : 'bg-cyan-neon border-cyan-neon text-obsidian-950 shadow-[3px_3px_0px_#000,4px_4px_0px_#00F2FE] hover:translate-x-[-1px] hover:translate-y-[-1px] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none'
+                  ? 'bg-emerald-500/15 border-emerald-500/40 text-emerald-400 hover:bg-emerald-500/25'
+                  : 'bg-rose-500/15 border-rose-500/40 text-rose-400 hover:bg-rose-500/25'
               }`}
             >
               {auraPodActive ? 'SWITCH TO DEAD ZONE (1 BAR)' : 'ENABLE AURAPOD BOOST (4 BARS)'}
@@ -332,7 +332,7 @@ Status:             ON-TIME SUBMISSION VERIFIED
             </div>
 
             {/* Right: Telemetry & Dispatch Button (Col 5) */}
-            <div className="lg:col-span-5 p-6 rounded-xl bg-obsidian-900/90 border-2 border-white/15 flex flex-col justify-between shadow-[4px_4px_0px_#0F172A]">
+            <div className="lg:col-span-5 p-6 rounded-xl bg-obsidian-900/80 border border-white/10 flex flex-col justify-between shadow-sm">
               <div>
                 <div className="text-xs font-mono text-cyan-neon font-bold uppercase tracking-wider pb-3 border-b border-white/10 mb-4 flex items-center justify-between">
                   <span>LIVE PROTOCOL TELEMETRY</span>
@@ -340,7 +340,7 @@ Status:             ON-TIME SUBMISSION VERIFIED
                 </div>
 
                 {/* Structured Data Table with Tactile Row Separators */}
-                <div className="border border-white/10 rounded-lg overflow-hidden divide-y divide-white/10 font-mono text-xs bg-obsidian-950">
+                <div className="border border-white/10 rounded-lg overflow-hidden divide-y divide-white/10 font-mono text-xs bg-obsidian-950/80">
                   <div className="flex justify-between items-center p-2.5">
                     <span className="text-slate-400">Signal Strength:</span>
                     <span className={`font-bold ${auraPodActive ? 'text-emerald-signal' : 'text-crimson-hazard'}`}>
@@ -371,17 +371,17 @@ Status:             ON-TIME SUBMISSION VERIFIED
                 </div>
               </div>
 
-              {/* Neobrutalist High-Energy Dispatch Action Button */}
+              {/* High-Precision Dispatch Action Button */}
               <div className="mt-6">
                 <button
                   onClick={handleStartSubmission}
                   disabled={isSubmitting}
-                  className={`w-full py-3.5 px-5 rounded-lg font-mono font-black text-xs sm:text-sm uppercase tracking-wider flex items-center justify-center gap-2 border-2 transition-all ${
+                  className={`w-full py-3.5 px-5 rounded-lg font-mono font-bold text-xs sm:text-sm uppercase tracking-wider flex items-center justify-center gap-2 border transition-all active:scale-[0.98] ${
                     isSubmitting
                       ? 'bg-obsidian-800 border-white/10 text-slate-500 cursor-not-allowed shadow-none'
                       : auraPodActive
-                      ? 'bg-gradient-to-r from-cyan-neon to-emerald-signal border-cyan-neon text-obsidian-950 shadow-[4px_4px_0px_#0A0E17,5px_5px_0px_#10B981] hover:translate-x-[-1px] hover:translate-y-[-1px] active:translate-x-[3px] active:translate-y-[3px] active:shadow-none'
-                      : 'bg-crimson-hazard border-crimson-hazard text-white shadow-[4px_4px_0px_#0A0E17,5px_5px_0px_#991B1B] hover:translate-x-[-1px] hover:translate-y-[-1px] active:translate-x-[3px] active:translate-y-[3px] active:shadow-none'
+                      ? 'bg-emerald-500 hover:bg-emerald-400 border-emerald-400 text-slate-950 shadow-md'
+                      : 'bg-rose-600 hover:bg-rose-500 border-rose-500 text-white shadow-md'
                   }`}
                 >
                   {isSubmitting ? (
@@ -401,9 +401,9 @@ Status:             ON-TIME SUBMISSION VERIFIED
             </div>
           </div>
 
-          {/* Live Protocol Terminal Inspector (10% Neobrutalist CRT Styling) */}
-          <div className="rounded-xl bg-black border-2 border-white/20 overflow-hidden shadow-[4px_4px_0px_#0F172A]">
-            <div className="flex items-center justify-between px-4 py-2.5 bg-obsidian-900 border-b-2 border-white/15 text-xs font-mono">
+          {/* Live Protocol Terminal Inspector */}
+          <div className="rounded-xl bg-black/90 border border-white/15 overflow-hidden shadow-inner">
+            <div className="flex items-center justify-between px-4 py-2.5 bg-obsidian-900/90 border-b border-white/10 text-xs font-mono">
               <div className="flex items-center gap-2 text-slate-300">
                 <Terminal className="w-3.5 h-3.5 text-cyan-neon" />
                 <span className="font-bold">Live Packet Activity &amp; Protocol Trace</span>

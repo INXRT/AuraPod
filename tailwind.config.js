@@ -9,26 +9,26 @@ export default {
     extend: {
       colors: {
         obsidian: {
-          950: '#04060A',
-          900: '#080C14',
-          850: '#0D1320',
-          800: '#141D2F',
-          700: '#1E2B45',
+          950: '#07090E', // Deep velvet studio black
+          900: '#0C0F17', // Chassis matte slate
+          850: '#111622', // Machined titanium surface
+          800: '#181F30', // Elevated control panel
+          700: '#232D42', // Structural divider
         },
         cyan: {
-          neon: '#00F2FE',
-          glow: '#4FACFE',
-          dim: 'rgba(0, 242, 254, 0.15)',
+          neon: '#38BDF8', // Calibrated Surgical Sky Blue (replaces glaring #00F2FE)
+          glow: '#0EA5E9',
+          dim: 'rgba(56, 189, 248, 0.12)',
         },
         emerald: {
-          signal: '#10B981',
-          glow: '#34D399',
-          dim: 'rgba(16, 185, 129, 0.15)',
+          signal: '#22C55E', // Phosphor RF Green (authentic instrument LED)
+          glow: '#16A34A',
+          dim: 'rgba(34, 197, 94, 0.12)',
         },
         crimson: {
           hazard: '#EF4444',
-          glow: '#F87171',
-          dim: 'rgba(239, 68, 68, 0.15)',
+          glow: '#DC2626',
+          dim: 'rgba(239, 68, 68, 0.12)',
         },
       },
       fontFamily: {
@@ -71,10 +71,12 @@ export default {
         },
       },
       boxShadow: {
-        'cyan-glow': '0 0 35px -5px rgba(0, 242, 254, 0.35)',
-        'emerald-glow': '0 0 35px -5px rgba(16, 185, 129, 0.35)',
-        'crimson-glow': '0 0 35px -5px rgba(239, 68, 68, 0.35)',
-        'glass-card': '0 8px 32px 0 rgba(0, 0, 0, 0.37)',
+        'cyan-glow': '0 0 20px -3px rgba(56, 189, 248, 0.25)',
+        'emerald-glow': '0 0 20px -3px rgba(34, 197, 94, 0.25)',
+        'crimson-glow': '0 0 20px -3px rgba(239, 68, 68, 0.25)',
+        'glass-card': '0 8px 32px 0 rgba(0, 0, 0, 0.5)',
+        'card-elevation': '0 4px 20px -2px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.08)',
+        'card-highlight': '0 12px 32px -4px rgba(0, 0, 0, 0.75), 0 0 0 1px rgba(255, 255, 255, 0.16)',
       },
     },
   },

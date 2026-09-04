@@ -9,19 +9,25 @@ import {
   Volume2, 
   VolumeX, 
   Wifi,
-  WifiOff 
+  WifiOff,
+  Smartphone
 } from 'lucide-react';
 import { MagneticDock, DockItemData } from './ui/MagneticDock';
 import { sound } from '../utils/audioSynthesizer';
+import { AuraPodEdition } from '../types';
 
 interface NavigationDockProps {
   auraPodActive: boolean;
   onToggleAuraPod: () => void;
+  activeEdition?: AuraPodEdition;
+  onToggleEdition?: () => void;
 }
 
 export const NavigationDock: React.FC<NavigationDockProps> = ({
   auraPodActive,
   onToggleAuraPod,
+  activeEdition = 'pocket',
+  onToggleEdition,
 }) => {
   const [soundOn, setSoundOn] = useState(true);
   const [activeSection, setActiveSection] = useState<string>('hero');
@@ -74,8 +80,8 @@ export const NavigationDock: React.FC<NavigationDockProps> = ({
     },
     {
       id: 'hardware-3d',
-      label: '3D Subsystem Anatomy',
-      icon: <Radio className="w-5 h-5 text-cyan-neon" />,
+      label: '3D Anatomy',
+      icon: activeEdition === 'pocket' ? <Smartphone className="w-5 h-5 text-cyan-neon" /> : <Radio className="w-5 h-5 text-cyan-neon" />,
       onClick: () => scrollTo('hardware-3d'),
       isActive: activeSection === 'hardware-3d',
     },
@@ -103,11 +109,17 @@ export const NavigationDock: React.FC<NavigationDockProps> = ({
     },
     {
       id: 'pricing',
-      label: 'Economics & BOM',
+      label: 'Pricing & BOM',
       icon: <Zap className="w-5 h-5 text-amber-300 fill-amber-300/30" />,
       onClick: () => scrollTo('pricing'),
       isActive: activeSection === 'pricing',
     },
+    ...(onToggleEdition ? [{
+      id: 'edition',
+      label: activeEdition === 'pocket' ? 'Switch to Room Edition' : 'Switch to Pocket Edition',
+      icon: activeEdition === 'pocket' ? <Smartphone className="w-5 h-5 text-cyan-neon" /> : <Radio className="w-5 h-5 text-emerald-signal" />,
+      onClick: onToggleEdition,
+    }] : []),
     {
       id: 'audio',
       label: soundOn ? 'Mute Audio Synthesizer' : 'Unmute Audio Synthesizer',

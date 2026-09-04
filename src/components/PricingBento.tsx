@@ -1,17 +1,21 @@
 import React, { useState } from 'react';
-import { Check, Zap, ArrowRight, DollarSign, PieChart, TrendingUp, Users } from 'lucide-react';
-import { bomItems } from '../data/specsData';
+import { Check, Zap, ArrowRight, DollarSign, PieChart, TrendingUp, Users, Smartphone, Radio, Sparkles } from 'lucide-react';
+import { pocketBomItems, roomBomItems } from '../data/specsData';
 import { sound } from '../utils/audioSynthesizer';
 import { KineticTextReveal } from './ui/KineticTextReveal';
 
 export const PricingBento: React.FC = () => {
   const [currency, setCurrency] = useState<'USD' | 'INR'>('USD');
-  const [activeEconomicsTab, setActiveEconomicsTab] = useState<'bom' | 'market'>('bom');
+  const [activeEconomicsTab, setActiveEconomicsTab] = useState<'pocket-bom' | 'room-bom' | 'market'>('pocket-bom');
 
   const toggleCurrency = (cur: 'USD' | 'INR') => {
     sound.playToggleClick();
     setCurrency(cur);
   };
+
+  const activeBomItems = activeEconomicsTab === 'pocket-bom' ? pocketBomItems : roomBomItems;
+  const activeBomTotal = activeEconomicsTab === 'pocket-bom' ? 9.50 : 14.20;
+  const activeBomTotalInr = activeEconomicsTab === 'pocket-bom' ? 780 : 1165;
 
   return (
     <section id="pricing" className="py-24 px-4 relative z-10 max-w-6xl mx-auto">
@@ -20,12 +24,12 @@ export const PricingBento: React.FC = () => {
       <div className="text-left max-w-3xl mb-16">
         <div className="font-mono text-xs text-emerald-signal tracking-wider uppercase mb-3 flex items-center gap-3">
           <Zap className="w-3.5 h-3.5" />
-          <span>Pricing &amp; Hardware Costs</span>
+          <span>Product Lineup &amp; Hardware Pricing</span>
           <span className="w-8 h-[1px] bg-emerald-signal/40 hidden sm:inline-block" />
         </div>
         <h2 className="font-display font-black text-3xl sm:text-5xl text-white tracking-tight mb-4">
           <KineticTextReveal
-            text="Costs Less Than Wireless Earbuds"
+            text="Priced for Real Student Budgets"
             splitBy="words"
             direction="up"
             stagger={0.06}
@@ -33,7 +37,7 @@ export const PricingBento: React.FC = () => {
           />
         </h2>
         <p className="text-slate-400 text-sm sm:text-base">
-          Built with an estimated sub-$10 Bill of Materials, making personal signal boosting genuinely affordable for students.
+          Choose the **Pocket Edition** for lightweight everyday campus carry or the **Room Edition** for full-dorm coverage. Never miss an 11:59 PM deadline again.
         </p>
 
         {/* Currency Switcher */}
@@ -42,7 +46,7 @@ export const PricingBento: React.FC = () => {
             <button
               onClick={() => toggleCurrency('USD')}
               className={`px-3 py-1.5 rounded-lg transition-all ${
-                currency === 'USD' ? 'bg-cyan-neon text-obsidian-950 font-bold shadow-cyan-glow' : 'text-slate-400 hover:text-white'
+                currency === 'USD' ? 'bg-white text-slate-950 font-bold shadow-sm' : 'text-slate-400 hover:text-white'
               }`}
             >
               USD ($)
@@ -50,7 +54,7 @@ export const PricingBento: React.FC = () => {
             <button
               onClick={() => toggleCurrency('INR')}
               className={`px-3 py-1.5 rounded-lg transition-all ${
-                currency === 'INR' ? 'bg-cyan-neon text-obsidian-950 font-bold shadow-cyan-glow' : 'text-slate-400 hover:text-white'
+                currency === 'INR' ? 'bg-white text-slate-950 font-bold shadow-sm' : 'text-slate-400 hover:text-white'
               }`}
             >
               INR (₹)
@@ -59,72 +63,22 @@ export const PricingBento: React.FC = () => {
         </div>
       </div>
 
-      {/* Pricing Cards Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12 max-w-4xl mx-auto">
+      {/* Pricing Cards Grid - 3 Clean Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16 max-w-6xl mx-auto">
         
-        {/* Tier 1: AuraPod Lite */}
-        <div className="rounded-3xl glass-panel border border-white/10 p-6 sm:p-8 flex flex-col justify-between hover:border-white/25 transition-all text-left">
+        {/* Card 1: AuraPod Pocket Edition */}
+        <div className="rounded-3xl glass-panel border border-white/12 p-6 sm:p-7 flex flex-col justify-between hover:border-white/25 transition-all text-left shadow-card-elevation">
           <div>
-            <div className="text-xs font-mono text-slate-400 uppercase tracking-wider mb-2">Passive Model</div>
-            <h3 className="font-display font-bold text-2xl text-white">AuraPod Lite</h3>
-            <p className="text-xs text-slate-400 mt-1 mb-6">
-              Passive RF reflector pocket block for phone and desk boosting.
-            </p>
-
-            {/* Price */}
-            <div className="flex items-baseline gap-2 mb-6">
-              <span className="font-display font-black text-4xl text-white">
-                {currency === 'USD' ? '$19' : '₹1,499'}
+            <div className="flex items-center justify-between gap-2 mb-3">
+              <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5 border border-white/10 text-slate-300 font-semibold uppercase tracking-wider flex items-center gap-1">
+                <Smartphone className="w-3 h-3 text-cyan-neon" /> MOBILE EDC
               </span>
-              <span className="text-xs font-mono text-slate-400">/ One-time purchase</span>
+              <span className="text-[10px] font-mono text-slate-400">&lt;180g Pocket Block</span>
             </div>
 
-            {/* Feature list */}
-            <ul className="space-y-3 text-xs sm:text-sm text-slate-300 font-sans">
-              <li className="flex items-center gap-2.5">
-                <Check className="w-4 h-4 text-cyan-neon shrink-0" />
-                <span>Dual Telescopic Antennas (+8 dBi Gain)</span>
-              </li>
-              <li className="flex items-center gap-2.5">
-                <Check className="w-4 h-4 text-cyan-neon shrink-0" />
-                <span>Zero Battery / Zero Power Required</span>
-              </li>
-              <li className="flex items-center gap-2.5">
-                <Check className="w-4 h-4 text-cyan-neon shrink-0" />
-                <span>Compact Pocket Block Form Factor</span>
-              </li>
-              <li className="flex items-center gap-2.5">
-                <Check className="w-4 h-4 text-cyan-neon shrink-0" />
-                <span>AuraScope AR Tower Alignment App (Free)</span>
-              </li>
-              <li className="flex items-center gap-2.5 text-slate-500">
-                <span className="w-4 text-center font-bold">✕</span>
-                <span>Active LNA Booster &amp; Laptop USB Tether</span>
-              </li>
-            </ul>
-          </div>
-
-          <div className="mt-8 pt-6 border-t border-white/5">
-            <button
-              onClick={() => sound.playToggleClick()}
-              className="w-full py-3 rounded-xl font-display font-bold text-xs sm:text-sm glass-panel border border-white/20 text-slate-200 hover:text-white hover:border-cyan-neon/50 transition-all"
-            >
-              Select AuraPod Lite
-            </button>
-          </div>
-        </div>
-
-        {/* Tier 2: AuraPod Pro (Featured) */}
-        <div className="rounded-3xl glass-panel border border-cyan-neon/60 p-6 sm:p-8 flex flex-col justify-between relative shadow-cyan-glow text-left bg-gradient-to-b from-cyan-neon/[0.04] to-transparent overflow-hidden">
-          <div className="absolute top-0 right-0 px-3 py-1 rounded-bl-xl bg-cyan-neon text-obsidian-950 font-mono text-[10px] font-bold uppercase tracking-wider">
-            COMPLETE KIT
-          </div>
-
-          <div>
-            <div className="text-xs font-mono text-cyan-neon uppercase tracking-wider mb-2">Active Hardware + Software</div>
-            <h3 className="font-display font-bold text-2xl text-white">AuraPod Pro</h3>
+            <h3 className="font-display font-bold text-2xl text-white">AuraPod Pocket</h3>
             <p className="text-xs text-slate-400 mt-1 mb-6">
-              Complete package with active LNA, USB-C tether, and AuraQueue.
+              Everyday personal carry for campus walkways, library carrels, and lectures.
             </p>
 
             {/* Price */}
@@ -132,34 +86,34 @@ export const PricingBento: React.FC = () => {
               <span className="font-display font-black text-4xl text-white">
                 {currency === 'USD' ? '$29' : '₹1,999'}
               </span>
-              <span className="text-xs font-mono text-slate-400">/ Complete Hardware Kit</span>
+              <span className="text-xs font-mono text-slate-400">/ One-time purchase</span>
             </div>
 
             {/* Feature list */}
-            <ul className="space-y-3 text-xs sm:text-sm text-slate-200 font-sans">
+            <ul className="space-y-3 text-xs text-slate-200 font-sans">
               <li className="flex items-center gap-2.5">
-                <Check className="w-4 h-4 text-emerald-signal shrink-0" />
-                <span><strong>Dual 3-Stage Telescopic Antennas (+12 dBi Gain)</strong></span>
+                <Check className="w-4 h-4 text-cyan-neon shrink-0" />
+                <span><strong>Dual 3-Stage Telescopic Masts</strong> (+12 dBi Focus)</span>
               </li>
               <li className="flex items-center gap-2.5">
-                <Check className="w-4 h-4 text-emerald-signal shrink-0" />
-                <span><strong>Active Ultra-LNA Module</strong> (&lt;1.2 dB Noise Figure)</span>
+                <Check className="w-4 h-4 text-cyan-neon shrink-0" />
+                <span><strong>CNC Swivel Knuckle</strong> &amp; Flush Stowage Bay</span>
               </li>
               <li className="flex items-center gap-2.5">
-                <Check className="w-4 h-4 text-emerald-signal shrink-0" />
-                <span><strong>5V USB-C Laptop Bus</strong> (Draws &lt;2.1W)</span>
+                <Check className="w-4 h-4 text-cyan-neon shrink-0" />
+                <span><strong>Shielded Active LNA IC</strong> (&lt;1.2 dB Noise Figure)</span>
               </li>
               <li className="flex items-center gap-2.5">
-                <Check className="w-4 h-4 text-emerald-signal shrink-0" />
-                <span><strong>AuraQueue Resilient LMS Engine</strong> (Zero Failed Submits)</span>
+                <Check className="w-4 h-4 text-cyan-neon shrink-0" />
+                <span><strong>5V USB-C Powered</strong> (&lt;2.1W from Laptop/Bank)</span>
               </li>
               <li className="flex items-center gap-2.5">
-                <Check className="w-4 h-4 text-emerald-signal shrink-0" />
-                <span><strong>CampusVault 3 AM Pre-Caching &amp; DormMesh P2P</strong></span>
+                <Check className="w-4 h-4 text-cyan-neon shrink-0" />
+                <span><strong>AuraQueue LMS Never-Fail Engine</strong></span>
               </li>
               <li className="flex items-center gap-2.5">
-                <Check className="w-4 h-4 text-emerald-signal shrink-0" />
-                <span>Cryptographic Proof Receipt Generator</span>
+                <Check className="w-4 h-4 text-cyan-neon shrink-0" />
+                <span>100% FCC Part 15 Unlicensed Safe</span>
               </li>
             </ul>
           </div>
@@ -167,48 +121,185 @@ export const PricingBento: React.FC = () => {
           <div className="mt-8 pt-6 border-t border-white/10">
             <button
               onClick={() => sound.playSuccessChime()}
-              className="w-full py-3.5 rounded-xl font-display font-bold text-sm bg-gradient-to-r from-cyan-neon via-sky-400 to-blue-500 text-obsidian-950 hover:brightness-110 shadow-cyan-glow transition-all flex items-center justify-center gap-2"
+              className="w-full py-3 rounded-xl font-display font-semibold text-xs sm:text-sm bg-obsidian-900 hover:bg-obsidian-800 border border-white/20 text-white transition-all shadow-sm active:scale-[0.98]"
             >
-              <span>Pre-Order AuraPod Pro</span>
+              Order Pocket Edition
+            </button>
+          </div>
+        </div>
+
+        {/* Card 2: AuraPod Room Edition (Featured Hero) */}
+        <div className="rounded-3xl glass-panel border border-white/20 p-6 sm:p-7 flex flex-col justify-between relative shadow-card-highlight text-left overflow-hidden ring-1 ring-white/10">
+          <div className="absolute top-0 right-0 px-3 py-1 rounded-bl-xl bg-white text-slate-950 font-mono text-[10px] font-bold uppercase tracking-wider flex items-center gap-1">
+            <Sparkles className="w-3 h-3" /> DORM ROOM HUB
+          </div>
+
+          <div>
+            <div className="flex items-center justify-between gap-2 mb-3">
+              <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/25 font-semibold uppercase tracking-wider flex items-center gap-1">
+                <Radio className="w-3 h-3" /> ROOM SCALE
+              </span>
+              <span className="text-[10px] font-mono text-slate-400">Desk &amp; Window Hub</span>
+            </div>
+
+            <h3 className="font-display font-bold text-2xl text-white">AuraPod Room</h3>
+            <p className="text-xs text-slate-400 mt-1 mb-6">
+              Origami parabolic metamaterial array designed to blanket an entire dorm room in clean signal.
+            </p>
+
+            {/* Price */}
+            <div className="flex items-baseline gap-2 mb-6">
+              <span className="font-display font-black text-4xl text-white">
+                {currency === 'USD' ? '$49' : '₹3,499'}
+              </span>
+              <span className="text-xs font-mono text-slate-400">/ Complete Room Hub</span>
+            </div>
+
+            {/* Feature list */}
+            <ul className="space-y-3 text-xs text-slate-200 font-sans">
+              <li className="flex items-center gap-2.5">
+                <Check className="w-4 h-4 text-emerald-signal shrink-0" />
+                <span><strong>18-Stage Parabolic Metamaterial Dish</strong> (+11.8 dBi)</span>
+              </li>
+              <li className="flex items-center gap-2.5">
+                <Check className="w-4 h-4 text-emerald-signal shrink-0" />
+                <span><strong>Dielectric Focal Receiver Horn</strong> (f=0.65 Hub)</span>
+              </li>
+              <li className="flex items-center gap-2.5">
+                <Check className="w-4 h-4 text-emerald-signal shrink-0" />
+                <span><strong>Dual CNC 6061 Aluminum Struts</strong> (45° Tilt to Flat)</span>
+              </li>
+              <li className="flex items-center gap-2.5">
+                <Check className="w-4 h-4 text-emerald-signal shrink-0" />
+                <span><strong>Weighted Desk Base Pod</strong> &amp; Status Indicator</span>
+              </li>
+              <li className="flex items-center gap-2.5">
+                <Check className="w-4 h-4 text-emerald-signal shrink-0" />
+                <span><strong>Multi-Device Room Coverage</strong> (Shared Bed Hub)</span>
+              </li>
+              <li className="flex items-center gap-2.5">
+                <Check className="w-4 h-4 text-emerald-signal shrink-0" />
+                <span><strong>AuraQueue + DormMesh P2P Sync</strong></span>
+              </li>
+            </ul>
+          </div>
+
+          <div className="mt-8 pt-6 border-t border-white/10">
+            <button
+              onClick={() => sound.playSuccessChime()}
+              className="w-full py-3.5 rounded-xl font-display font-bold text-sm bg-white hover:bg-slate-200 text-slate-950 shadow-md transition-all flex items-center justify-center gap-2 active:scale-[0.98]"
+            >
+              <span>Order Room Edition</span>
               <ArrowRight className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
+
+        {/* Card 3: Campus Duo Bundle */}
+        <div className="rounded-3xl glass-panel border border-white/12 p-6 sm:p-7 flex flex-col justify-between hover:border-white/25 transition-all text-left shadow-card-elevation">
+          <div>
+            <div className="flex items-center justify-between gap-2 mb-3">
+              <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-400/10 border border-amber-400/20 text-amber-400 font-semibold uppercase tracking-wider">
+                CAMPUS DUO
+              </span>
+              <span className="text-[10px] font-mono text-emerald-signal font-bold">Save $9 / ₹500</span>
+            </div>
+
+            <h3 className="font-display font-bold text-2xl text-white">Campus Duo Bundle</h3>
+            <p className="text-xs text-slate-400 mt-1 mb-6">
+              Get both models: keep Room Edition on your desk, and carry Pocket Edition anywhere.
+            </p>
+
+            {/* Price */}
+            <div className="flex items-baseline gap-2 mb-6">
+              <span className="font-display font-black text-4xl text-white">
+                {currency === 'USD' ? '$69' : '₹4,999'}
+              </span>
+              <span className="text-xs font-mono text-slate-400">/ 2-Device Kit</span>
+            </div>
+
+            {/* Feature list */}
+            <ul className="space-y-3 text-xs text-slate-200 font-sans">
+              <li className="flex items-center gap-2.5">
+                <Check className="w-4 h-4 text-amber-400 shrink-0" />
+                <span><strong>1x AuraPod Pocket Edition</strong> (&lt;180g EDC Block)</span>
+              </li>
+              <li className="flex items-center gap-2.5">
+                <Check className="w-4 h-4 text-amber-400 shrink-0" />
+                <span><strong>1x AuraPod Room Edition</strong> (Desk Parabolic Hub)</span>
+              </li>
+              <li className="flex items-center gap-2.5">
+                <Check className="w-4 h-4 text-amber-400 shrink-0" />
+                <span><strong>2x Braided High-Grade USB-C Cables</strong></span>
+              </li>
+              <li className="flex items-center gap-2.5">
+                <Check className="w-4 h-4 text-amber-400 shrink-0" />
+                <span>Seamless Account &amp; Multi-Device Mesh Sync</span>
+              </li>
+              <li className="flex items-center gap-2.5">
+                <Check className="w-4 h-4 text-amber-400 shrink-0" />
+                <span>Priority Campus Overnight Delivery</span>
+              </li>
+            </ul>
+          </div>
+
+          <div className="mt-8 pt-6 border-t border-white/10">
+            <button
+              onClick={() => sound.playSuccessChime()}
+              className="w-full py-3 rounded-xl font-display font-semibold text-xs sm:text-sm bg-obsidian-900 hover:bg-obsidian-800 border border-white/20 text-white transition-all shadow-sm active:scale-[0.98]"
+            >
+              Order Duo Bundle
             </button>
           </div>
         </div>
 
       </div>
 
-      {/* Presentation-Grade Commercial BOM & Market Opportunity Showcase */}
+      {/* Bill of Materials (BOM) & Market Explorer */}
       <div className="max-w-4xl mx-auto rounded-3xl glass-panel border border-white/10 p-6 sm:p-8 text-left">
         
         {/* Header with Switcher Tabs */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-4 border-b border-white/10 mb-6 font-mono text-xs">
           <div className="flex items-center gap-2">
             <DollarSign className="w-4 h-4 text-emerald-signal" />
-            <span className="text-white font-bold uppercase">Commercial Viability &amp; Financial Model</span>
+            <span className="text-white font-bold uppercase">Manufacturing BOM &amp; Economics</span>
           </div>
 
-          <div className="flex items-center gap-1.5 p-1 rounded-xl bg-obsidian-950 border border-white/10">
+          <div className="flex flex-wrap items-center gap-1.5 p-1 rounded-xl bg-obsidian-900/90 border border-white/10 shadow-inner">
             <button
               onClick={() => {
                 sound.playToggleClick();
-                setActiveEconomicsTab('bom');
+                setActiveEconomicsTab('pocket-bom');
               }}
-              className={`px-3 py-1 rounded-lg transition-all ${
-                activeEconomicsTab === 'bom'
-                  ? 'bg-emerald-signal text-obsidian-950 font-bold shadow-emerald-glow'
+              className={`px-3 py-1.5 rounded-lg font-semibold transition-all ${
+                activeEconomicsTab === 'pocket-bom'
+                  ? 'bg-white text-slate-950 shadow-sm'
                   : 'text-slate-400 hover:text-white'
               }`}
             >
-              BOM Cost ($9.50)
+              Pocket BOM ($9.50)
+            </button>
+            <button
+              onClick={() => {
+                sound.playToggleClick();
+                setActiveEconomicsTab('room-bom');
+              }}
+              className={`px-3 py-1.5 rounded-lg font-semibold transition-all ${
+                activeEconomicsTab === 'room-bom'
+                  ? 'bg-white text-slate-950 shadow-sm'
+                  : 'text-slate-400 hover:text-white'
+              }`}
+            >
+              Room BOM ($14.20)
             </button>
             <button
               onClick={() => {
                 sound.playToggleClick();
                 setActiveEconomicsTab('market');
               }}
-              className={`px-3 py-1 rounded-lg transition-all ${
+              className={`px-3 py-1.5 rounded-lg font-semibold transition-all ${
                 activeEconomicsTab === 'market'
-                  ? 'bg-emerald-signal text-obsidian-950 font-bold shadow-emerald-glow'
+                  ? 'bg-white text-slate-950 shadow-sm'
                   : 'text-slate-400 hover:text-white'
               }`}
             >
@@ -217,50 +308,7 @@ export const PricingBento: React.FC = () => {
           </div>
         </div>
 
-        {activeEconomicsTab === 'bom' ? (
-          // BOM Cost Explorer Tab
-          <div>
-            <div className="flex items-center justify-between pb-3 mb-4">
-              <span className="text-xs font-mono text-slate-400">
-                Manufacturing Batch Scale: 5,000 Units • Shenzhen SMT &amp; CNC Production
-              </span>
-              <span className="text-xs font-mono text-emerald-signal font-bold">
-                67.2% Gross Profit Margin
-              </span>
-            </div>
-
-            <div className="space-y-3 font-mono text-xs">
-              {bomItems.map((item, idx) => (
-                <div key={idx} className="p-3 rounded-xl bg-obsidian-950/70 border border-white/5 space-y-1.5">
-                  <div className="flex justify-between items-center">
-                    <span className="text-white font-medium">{item.component}</span>
-                    <span className="text-cyan-neon font-bold">
-                      {currency === 'USD' ? `$${item.cost.toFixed(2)}` : `₹${item.costInr}`}
-                    </span>
-                  </div>
-                  <div className="flex justify-between items-center text-[10px] text-slate-500">
-                    <span>{item.function}</span>
-                    <span>{((item.cost / 9.5) * 100).toFixed(1)}% of COGS</span>
-                  </div>
-                  {/* Cost Allocation Progress Bar */}
-                  <div className="w-full h-1 rounded-full bg-obsidian-800 overflow-hidden">
-                    <div
-                      className="h-full bg-cyan-neon/80"
-                      style={{ width: `${(item.cost / 9.5) * 100}%` }}
-                    />
-                  </div>
-                </div>
-              ))}
-
-              <div className="flex justify-between items-center pt-4 border-t border-white/10 text-sm font-bold">
-                <span className="text-white">TOTAL COGS (BILL OF MATERIALS):</span>
-                <span className="text-emerald-signal text-base">
-                  {currency === 'USD' ? '$9.50' : '₹780'}
-                </span>
-              </div>
-            </div>
-          </div>
-        ) : (
+        {activeEconomicsTab === 'market' ? (
           // Market Opportunity & TAM Tab
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 font-mono text-xs">
             <div className="p-4 rounded-2xl bg-obsidian-950/80 border border-white/10">
@@ -294,6 +342,53 @@ export const PricingBento: React.FC = () => {
               <p className="text-[11px] text-slate-400 mt-1">
                 Campus ambassador peer-to-peer dorm distribution with 15% referral rev-share.
               </p>
+            </div>
+          </div>
+        ) : (
+          // BOM Cost Explorer Tab (Pocket or Room)
+          <div>
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between pb-3 mb-4 gap-2">
+              <span className="text-xs font-mono text-slate-400">
+                {activeEconomicsTab === 'pocket-bom'
+                  ? 'Pocket Edition COGS • Batch Scale 5,000 Units • CNC & SMT'
+                  : 'Room Edition COGS • Batch Scale 5,000 Units • Parabolic Stamping & Aluminum Pod'}
+              </span>
+              <span className="text-xs font-mono text-emerald-signal font-bold">
+                {activeEconomicsTab === 'pocket-bom' ? '67.2% Gross Margin ($29 MSRP)' : '71.0% Gross Margin ($49 MSRP)'}
+              </span>
+            </div>
+
+            <div className="space-y-3 font-mono text-xs">
+              {activeBomItems.map((item, idx) => (
+                <div key={idx} className="p-3 rounded-xl bg-obsidian-950/70 border border-white/5 space-y-1.5">
+                  <div className="flex justify-between items-center">
+                    <span className="text-white font-medium">{item.component}</span>
+                    <span className="text-cyan-neon font-bold">
+                      {currency === 'USD' ? `$${item.cost.toFixed(2)}` : `₹${item.costInr}`}
+                    </span>
+                  </div>
+                  <div className="flex justify-between items-center text-[10px] text-slate-500">
+                    <span>{item.function}</span>
+                    <span>{((item.cost / activeBomTotal) * 100).toFixed(1)}% of COGS</span>
+                  </div>
+                  {/* Cost Allocation Progress Bar */}
+                  <div className="w-full h-1 rounded-full bg-obsidian-800 overflow-hidden">
+                    <div
+                      className={`h-full ${activeEconomicsTab === 'pocket-bom' ? 'bg-cyan-neon/80' : 'bg-emerald-signal/80'}`}
+                      style={{ width: `${(item.cost / activeBomTotal) * 100}%` }}
+                    />
+                  </div>
+                </div>
+              ))}
+
+              <div className="flex justify-between items-center pt-4 border-t border-white/10 text-sm font-bold">
+                <span className="text-white">
+                  TOTAL {activeEconomicsTab === 'pocket-bom' ? 'POCKET' : 'ROOM'} EDITION COGS:
+                </span>
+                <span className="text-emerald-signal text-base">
+                  {currency === 'USD' ? `$${activeBomTotal.toFixed(2)}` : `₹${activeBomTotalInr}`}
+                </span>
+              </div>
             </div>
           </div>
         )}

@@ -38,16 +38,16 @@ export const HostelFaradayPhysics: React.FC<HostelFaradayPhysicsProps> = ({
       </div>
 
       {/* Architectural Cross-Section Chassis */}
-      <div className="rounded-2xl bg-obsidian-950 border-2 border-white/20 p-6 sm:p-8 shadow-[6px_6px_0px_#0A0E17,8px_8px_0px_#00F2FE] text-left">
+      <div className="rounded-2xl bg-obsidian-950 border border-white/15 p-6 sm:p-8 shadow-card-elevation text-left relative overflow-hidden">
         
         {/* Toolbar with Material Selector */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-4 border-b-2 border-white/10 mb-6 font-mono text-xs">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-4 border-b border-white/10 mb-6 font-mono text-xs">
           <div className="flex items-center gap-2">
-            <span className="w-2.5 h-2.5 rounded-full bg-cyan-neon animate-pulse" />
+            <span className="w-2 h-2 rounded-full bg-cyan-neon" />
             <span className="text-white font-bold uppercase">Wall Signal Penetration Model</span>
           </div>
 
-          <div className="flex items-center gap-1.5 p-1 rounded-xl bg-obsidian-900 border-2 border-white/15 shadow-[2px_2px_0px_#000]">
+          <div className="flex items-center gap-1.5 p-1 rounded-xl bg-obsidian-900 border border-white/10 shadow-inner">
             {[
               { id: 'concrete', label: '250mm Concrete (-32 dB)' },
               { id: 'brick', label: 'Standard Brick (-18 dB)' },
@@ -56,9 +56,9 @@ export const HostelFaradayPhysics: React.FC<HostelFaradayPhysicsProps> = ({
               <button
                 key={item.id}
                 onClick={() => setWallType(item.id as any)}
-                className={`px-3 py-1 rounded-lg font-bold transition-all ${
+                className={`px-3 py-1 rounded-lg font-semibold transition-all ${
                   wallType === item.id
-                    ? 'bg-cyan-neon text-obsidian-950 shadow-[2px_2px_0px_#000]'
+                    ? 'bg-white text-slate-950 shadow-sm'
                     : 'text-slate-400 hover:text-white'
                 }`}
               >
@@ -125,16 +125,16 @@ export const HostelFaradayPhysics: React.FC<HostelFaradayPhysicsProps> = ({
               // Active: AuraPod focusing wavefront
               <>
                 {/* AuraPod Parabolic Dish on desk */}
-                <path d="M 380 95 Q 405 145 430 95" fill="none" stroke="#00F2FE" strokeWidth="3.5" />
-                <circle cx="405" cy="125" r="6" fill="#10B981" />
-                <line x1="405" y1="125" x2="470" y2="152" stroke="#10B981" strokeWidth="2" strokeDasharray="4 4" />
+                <path d="M 380 95 Q 405 145 430 95" fill="none" stroke="#38BDF8" strokeWidth="3" />
+                <circle cx="405" cy="125" r="5" fill="#22C55E" />
+                <line x1="405" y1="125" x2="470" y2="152" stroke="#22C55E" strokeWidth="2" strokeDasharray="4 4" />
 
                 {/* Direct incident ray through window focusing to dish */}
-                <path d="M 105 45 L 280 45 L 405 125" fill="none" stroke="#00F2FE" strokeWidth="2.5" />
-                <text x="420" y="90" fill="#00F2FE" fontSize="10" fontFamily="monospace" fontWeight="bold">
+                <path d="M 105 45 L 280 45 L 405 125" fill="none" stroke="#38BDF8" strokeWidth="2" />
+                <text x="420" y="90" fill="#38BDF8" fontSize="10" fontFamily="monospace" fontWeight="bold">
                   +11.8 dBi FOCUS
                 </text>
-                <text x="500" y="130" fill="#10B981" fontSize="11" fontFamily="monospace" fontWeight="bold">
+                <text x="500" y="130" fill="#22C55E" fontSize="11" fontFamily="monospace" fontWeight="bold">
                   -78 dBm (4 BARS)
                 </text>
               </>
@@ -151,7 +151,7 @@ export const HostelFaradayPhysics: React.FC<HostelFaradayPhysicsProps> = ({
         </div>
 
         {/* Comparison Callout Card */}
-        <div className="p-4 rounded-xl bg-obsidian-900 border-2 border-white/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 font-mono text-xs">
+        <div className="p-4 rounded-xl bg-obsidian-900/80 border border-white/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 font-mono text-xs shadow-sm">
           <div className="flex items-center gap-3">
             {auraPodActive ? (
               <CheckCircle2 className="w-5 h-5 text-emerald-signal shrink-0" />
@@ -173,10 +173,10 @@ export const HostelFaradayPhysics: React.FC<HostelFaradayPhysicsProps> = ({
 
           <button
             onClick={onToggleAuraPod}
-            className={`px-4 py-2 rounded-lg font-mono font-bold text-xs whitespace-nowrap border-2 transition-all shadow-[2px_2px_0px_#000] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none ${
+            className={`px-4 py-2 rounded-lg font-mono font-semibold text-xs whitespace-nowrap border transition-all shadow-sm active:scale-[0.98] ${
               auraPodActive
-                ? 'bg-obsidian-950 border-white/20 text-slate-300 hover:text-white'
-                : 'bg-cyan-neon border-cyan-neon text-obsidian-950'
+                ? 'bg-obsidian-900 border-white/20 text-slate-300 hover:text-white'
+                : 'bg-emerald-500/15 border-emerald-500/40 text-emerald-400 hover:bg-emerald-500/25'
             }`}
           >
             {auraPodActive ? 'Simulate Dead Zone (1 Bar)' : 'Focus AuraPod (+11.8 dBi)'}

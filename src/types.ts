@@ -19,3 +19,6 @@ export interface TelemetryState {
   towerDistance: string; // e.g. "1.4 km (Azimuth 42° NNE)"
   gainAdded: number; // in dBi
 }
+
+export type AuraPodEdition = 'pocket' | 'room';
+

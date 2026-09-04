@@ -264,18 +264,16 @@ export const RfWaveCanvas: React.FC<RfWaveCanvasProps> = ({ auraPodActive }) => 
           }
 
           const gradient = ctx.createLinearGradient(startX, startY, rx, ry);
-          gradient.addColorStop(0, `rgba(56, 189, 248, ${0.15 * currentBlend})`);
-          gradient.addColorStop(0.5, `rgba(0, 242, 254, ${line.opacity * currentBlend * 0.85})`);
-          gradient.addColorStop(1, `rgba(16, 185, 129, ${0.95 * currentBlend})`);
+          gradient.addColorStop(0, `rgba(148, 163, 184, ${0.08 * currentBlend})`);
+          gradient.addColorStop(0.5, `rgba(56, 189, 248, ${line.opacity * currentBlend * 0.45})`);
+          gradient.addColorStop(1, `rgba(248, 250, 252, ${0.35 * currentBlend})`);
 
           ctx.strokeStyle = gradient;
-          ctx.lineWidth = 1.8;
-          ctx.shadowBlur = 8;
-          ctx.shadowColor = `rgba(0, 242, 254, ${0.45 * currentBlend})`;
+          ctx.lineWidth = 1.2;
           ctx.stroke();
 
-          // Traveling Energy Packet Pulses
-          const pulseProgress = ((time * line.speed * 0.32 + line.pulseOffset) % 1);
+          // Traveling Energy Wave Pulses (Delicate RF wave packets)
+          const pulseProgress = ((time * line.speed * 0.25 + line.pulseOffset) % 1);
           const pt = pulseProgress;
           const pbx = (1 - pt) * (1 - pt) * startX + 2 * (1 - pt) * pt * ctrlX + pt * pt * rx;
           const pby = (1 - pt) * (1 - pt) * startY + 2 * (1 - pt) * pt * ctrlY + pt * pt * ry;
@@ -285,82 +283,16 @@ export const RfWaveCanvas: React.FC<RfWaveCanvasProps> = ({ auraPodActive }) => 
           const pny = (ctrlX - startX) * 0.022 * pWave;
 
           ctx.beginPath();
-          ctx.arc(pbx + pnx, pby + pny, 2.4, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(255, 255, 255, ${0.95 * currentBlend})`;
-          ctx.shadowBlur = 12;
-          ctx.shadowColor = '#00F2FE';
+          ctx.arc(pbx + pnx, pby + pny, 1.8, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(248, 250, 252, ${0.65 * currentBlend})`;
           ctx.fill();
-
-          ctx.beginPath();
-          ctx.arc(pbx + pnx, pby + pny, 4.5, 0, Math.PI * 2);
-          ctx.strokeStyle = `rgba(0, 242, 254, ${0.5 * currentBlend})`;
-          ctx.lineWidth = 1;
-          ctx.stroke();
         });
 
-        // -------------------------------------------------------------
-        // 3. ARCHITECTURAL RF FOCAL APERTURE STATION
-        // -------------------------------------------------------------
-        ctx.shadowBlur = 0;
-
-        ctx.save();
-        ctx.translate(rx, ry);
-        ctx.rotate(time * 0.4);
+        // Delicate Focal Point (Minimalist optical anchor)
         ctx.beginPath();
-        ctx.arc(0, 0, 44, 0, Math.PI * 2);
-        ctx.setLineDash([6, 6]);
-        ctx.strokeStyle = `rgba(0, 242, 254, ${0.65 * currentBlend})`;
-        ctx.lineWidth = 1.2;
-        ctx.stroke();
-        ctx.restore();
-
-        ctx.beginPath();
-        ctx.arc(rx, ry, 26, 0, Math.PI * 2);
-        ctx.strokeStyle = `rgba(16, 185, 129, ${0.75 * currentBlend})`;
-        ctx.lineWidth = 1.4;
-        ctx.stroke();
-
-        const sonarRadius = (time * 26) % 68;
-        ctx.beginPath();
-        ctx.arc(rx, ry, sonarRadius, 0, Math.PI * 2);
-        ctx.strokeStyle = `rgba(16, 185, 129, ${(1 - sonarRadius / 68) * 0.8 * currentBlend})`;
-        ctx.lineWidth = 1.5;
-        ctx.stroke();
-
-        ctx.strokeStyle = `rgba(0, 242, 254, ${0.75 * currentBlend})`;
-        ctx.lineWidth = 1.2;
-        ctx.beginPath();
-        ctx.moveTo(rx - 28, ry);
-        ctx.lineTo(rx - 8, ry);
-        ctx.moveTo(rx + 8, ry);
-        ctx.lineTo(rx + 28, ry);
-        ctx.moveTo(rx, ry - 28);
-        ctx.lineTo(rx, ry - 8);
-        ctx.moveTo(rx, ry + 8);
-        ctx.lineTo(rx, ry + 28);
-        ctx.stroke();
-
-        ctx.beginPath();
-        ctx.arc(rx, ry, 5, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(16, 185, 129, ${0.95 * currentBlend})`;
-        ctx.shadowBlur = 18;
-        ctx.shadowColor = '#10B981';
+        ctx.arc(rx, ry, 3, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(56, 189, 248, ${0.8 * currentBlend})`;
         ctx.fill();
-
-        ctx.beginPath();
-        ctx.arc(rx, ry, 2, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255, 255, 255, ${0.95 * currentBlend})`;
-        ctx.fill();
-
-        ctx.shadowBlur = 0;
-        ctx.font = 'bold 10px monospace';
-        ctx.fillStyle = `rgba(0, 242, 254, ${0.9 * currentBlend})`;
-        ctx.textAlign = 'center';
-        ctx.fillText('[ RF_CONCENTRATOR // LOCKED ]', rx, ry - 54);
-
-        ctx.font = '9px monospace';
-        ctx.fillStyle = `rgba(16, 185, 129, ${0.85 * currentBlend})`;
-        ctx.fillText('APERTURE FOCUS: +11.8 dBi • 3.5GHz n78', rx, ry + 62);
 
         ctx.restore();
       }

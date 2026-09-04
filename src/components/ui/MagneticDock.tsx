@@ -118,12 +118,12 @@ function DockItem({
           "shadow-xl shadow-black/40",
           "flex items-center justify-center",
           "transition-all duration-200",
-          item.isActive && "border-cyan-neon/60 shadow-cyan-glow"
+          item.isActive && "border-white/35 shadow-lg"
         )}
         style={{
           boxShadow: isHovered
-            ? "0 10px 30px rgba(0,242,254,0.25), inset 0 1px 0 rgba(255,255,255,0.4)"
-            : "0 4px 14px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.15)",
+            ? "0 10px 28px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.25)"
+            : "0 4px 14px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.1)",
         }}
       >
         {/* Icon */}
@@ -136,8 +136,8 @@ function DockItem({
           className="absolute inset-0 pointer-events-none"
           style={{
             background:
-              "linear-gradient(135deg, rgba(255,255,255,0.3) 0%, transparent 50%, transparent 100%)",
-            opacity: isHovered ? 0.8 : 0.25,
+              "linear-gradient(135deg, rgba(255,255,255,0.2) 0%, transparent 50%, transparent 100%)",
+            opacity: isHovered ? 0.7 : 0.15,
           }}
         />
       </motion.div>
@@ -153,11 +153,10 @@ function DockItem({
               "absolute -top-1.5 -right-1.5",
               "min-w-[18px] h-4 px-1",
               "rounded-full",
-              "bg-gradient-to-r from-cyan-neon to-blue-500",
-              "text-obsidian-950 text-[10px] font-mono font-black",
+              "bg-white text-slate-950 text-[10px] font-mono font-bold",
               "flex items-center justify-center",
-              "border border-obsidian-950",
-              "shadow-md shadow-cyan-neon/30"
+              "border border-slate-900",
+              "shadow-sm"
             )}
           >
             {item.badge}
@@ -172,7 +171,7 @@ function DockItem({
             initial={{ scale: 0, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0, opacity: 0 }}
-            className="absolute -bottom-2 w-1.5 h-1.5 rounded-full bg-cyan-neon shadow-cyan-glow"
+            className="absolute -bottom-2 w-1.5 h-1.5 rounded-full bg-white shadow-sm"
           />
         )}
       </AnimatePresence>
@@ -190,8 +189,8 @@ function DockItem({
               "px-2.5 py-1 rounded-lg",
               "bg-obsidian-900/95 backdrop-blur-md",
               "text-slate-100 text-xs font-mono font-semibold whitespace-nowrap",
-              "border border-cyan-neon/30",
-              "shadow-2xl shadow-cyan-neon/20",
+              "border border-white/20",
+              "shadow-2xl shadow-black/80",
               "pointer-events-none z-50"
             )}
           >
@@ -202,19 +201,19 @@ function DockItem({
                 "absolute left-1/2 -translate-x-1/2 -bottom-1",
                 "w-2 h-2 rotate-45",
                 "bg-obsidian-900",
-                "border-r border-b border-cyan-neon/30"
+                "border-r border-b border-white/20"
               )}
             />
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* Hover glow */}
+      {/* Hover subtle lift */}
       <motion.div
         className="absolute inset-0 rounded-2xl pointer-events-none"
         animate={{
           boxShadow: isHovered
-            ? "0 0 25px rgba(0,242,254,0.25)"
+            ? "0 0 16px rgba(255,255,255,0.06)"
             : "0 0 0px rgba(0,0,0,0)",
         }}
         transition={{ duration: 0.25 }}
@@ -325,7 +324,7 @@ export function MagneticDock({
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 10 }}
-            className="w-24 h-1.5 rounded-full bg-cyan-neon/40 shadow-cyan-glow mb-1 pointer-events-auto cursor-pointer animate-pulse"
+            className="w-20 h-1 rounded-full bg-white/30 hover:bg-white/50 mb-1 pointer-events-auto cursor-pointer transition-colors"
             onClick={() => setIsVisible(true)}
             title="Hover or click to show Dock"
           />

@@ -36,7 +36,7 @@ export const Footer: React.FC = () => {
         {/* Form: Pilot Waitlist */}
         <div className="space-y-3 font-sans md:col-span-1">
           <div className="text-white font-bold text-xs font-mono uppercase tracking-wider">Campus Batch 01 Waitlist</div>
-          <p className="text-xs text-slate-400">Join 400+ students from 12 universities pre-ordering the $29 AuraPod Pro.</p>
+          <p className="text-xs text-slate-400">Join 400+ students from 12 universities pre-ordering AuraPod Pocket and Room Editions.</p>
           <div className="space-y-2">
             <form onSubmit={handleSubscribe} className="flex gap-2">
               <input
@@ -48,7 +48,7 @@ export const Footer: React.FC = () => {
               />
               <button
                 type="submit"
-                className="px-3 py-2 rounded-xl bg-cyan-neon text-obsidian-950 text-xs font-mono font-bold hover:brightness-110 shadow-cyan-glow whitespace-nowrap transition-all"
+                className="px-3 py-2 rounded-xl bg-white text-slate-950 text-xs font-mono font-bold hover:bg-slate-200 shadow-sm whitespace-nowrap transition-all"
               >
                 Join
               </button>

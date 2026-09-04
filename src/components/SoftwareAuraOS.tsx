@@ -70,16 +70,16 @@ export const SoftwareAuraOS: React.FC = () => {
 
       {/* Interactive Tab Switcher */}
       <div className="flex justify-center mb-10">
-        <div className="p-1.5 rounded-2xl glass-panel border border-white/10 flex flex-wrap gap-1 sm:gap-2">
+        <div className="p-1 rounded-2xl bg-obsidian-900/90 border border-white/10 shadow-inner flex flex-wrap gap-1 sm:gap-1.5">
           <button
             onClick={() => {
               setActiveTab('aurascope');
               sound.playToggleClick();
             }}
-            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-display font-bold text-xs sm:text-sm transition-all ${
+            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-display font-semibold text-xs sm:text-sm transition-all ${
               activeTab === 'aurascope'
-                ? 'bg-cyan-neon text-obsidian-950 shadow-cyan-glow'
-                : 'text-slate-300 hover:text-white hover:bg-white/5'
+                ? 'bg-white text-slate-950 shadow-sm'
+                : 'text-slate-400 hover:text-white hover:bg-white/5'
             }`}
           >
             <Compass className="w-4 h-4" />
@@ -91,10 +91,10 @@ export const SoftwareAuraOS: React.FC = () => {
               setActiveTab('auraqueue');
               sound.playToggleClick();
             }}
-            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-display font-bold text-xs sm:text-sm transition-all ${
+            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-display font-semibold text-xs sm:text-sm transition-all ${
               activeTab === 'auraqueue'
-                ? 'bg-emerald-signal text-obsidian-950 shadow-emerald-glow'
-                : 'text-slate-300 hover:text-white hover:bg-white/5'
+                ? 'bg-white text-slate-950 shadow-sm'
+                : 'text-slate-400 hover:text-white hover:bg-white/5'
             }`}
           >
             <Database className="w-4 h-4" />
@@ -106,10 +106,10 @@ export const SoftwareAuraOS: React.FC = () => {
               setActiveTab('campusvault');
               sound.playToggleClick();
             }}
-            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-display font-bold text-xs sm:text-sm transition-all ${
+            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-display font-semibold text-xs sm:text-sm transition-all ${
               activeTab === 'campusvault'
-                ? 'bg-amber-400 text-obsidian-950 shadow-amber-400/30'
-                : 'text-slate-300 hover:text-white hover:bg-white/5'
+                ? 'bg-white text-slate-950 shadow-sm'
+                : 'text-slate-400 hover:text-white hover:bg-white/5'
             }`}
           >
             <HardDrive className="w-4 h-4" />
@@ -120,7 +120,7 @@ export const SoftwareAuraOS: React.FC = () => {
 
       {/* Tab 1: AuraScope AR Radar Simulator */}
       {activeTab === 'aurascope' && (
-        <div className="rounded-3xl glass-panel border border-cyan-neon/30 p-6 sm:p-8 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+        <div className="rounded-3xl glass-panel border border-white/10 p-6 sm:p-8 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
           
           <div className="lg:col-span-6 space-y-4 text-left">
             <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded bg-cyan-neon/10 text-cyan-neon border border-cyan-neon/30 text-xs font-mono font-bold">
@@ -160,17 +160,17 @@ export const SoftwareAuraOS: React.FC = () => {
             <div
               ref={radarRef}
               onMouseMove={handleMouseMoveRadar}
-              className="relative w-full max-w-[360px] h-[320px] rounded-3xl bg-obsidian-950 border border-cyan-neon/40 shadow-cyan-glow overflow-hidden cursor-crosshair select-none p-4"
+              className="relative w-full max-w-[360px] h-[320px] rounded-3xl bg-obsidian-950 border border-white/15 shadow-card-elevation overflow-hidden cursor-crosshair select-none p-4"
             >
               {/* Radar Grid Rings */}
               <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                <div className="w-24 h-24 rounded-full border border-cyan-neon/20" />
-                <div className="w-48 h-48 rounded-full border border-cyan-neon/20" />
-                <div className="w-72 h-72 rounded-full border border-cyan-neon/15" />
-                <div className="absolute w-full h-[1px] bg-cyan-neon/15" />
-                <div className="absolute h-full w-[1px] bg-cyan-neon/15" />
+                <div className="w-24 h-24 rounded-full border border-sky-500/15" />
+                <div className="w-48 h-48 rounded-full border border-sky-500/15" />
+                <div className="w-72 h-72 rounded-full border border-sky-500/10" />
+                <div className="absolute w-full h-[1px] bg-sky-500/10" />
+                <div className="absolute h-full w-[1px] bg-sky-500/10" />
                 {/* Rotating Sweep Beam */}
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-cyan-neon/15 to-transparent animate-radar-sweep origin-center pointer-events-none" />
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-sky-400/10 to-transparent animate-radar-sweep origin-center pointer-events-none" />
               </div>
 
               {/* Target Cell Tower Marker */}
@@ -179,8 +179,8 @@ export const SoftwareAuraOS: React.FC = () => {
                 className="absolute -translate-x-1/2 -translate-y-1/2 pointer-events-none"
               >
                 <div className="relative flex items-center justify-center">
-                  <div className="w-6 h-6 rounded-full border-2 border-emerald-signal bg-emerald-signal/20 animate-ping" />
-                  <div className="w-3 h-3 rounded-full bg-emerald-signal absolute" />
+                  <div className="w-5 h-5 rounded-full border border-emerald-signal bg-emerald-signal/20 animate-ping" />
+                  <div className="w-2.5 h-2.5 rounded-full bg-emerald-signal absolute" />
                   <span className="absolute top-4 left-4 text-[9px] font-mono text-emerald-signal font-bold whitespace-nowrap">
                     TOWER #802 (3.5GHz)
                   </span>
@@ -215,7 +215,7 @@ export const SoftwareAuraOS: React.FC = () => {
 
       {/* Tab 2: AuraQueue Resilient LMS Engine */}
       {activeTab === 'auraqueue' && (
-        <div className="rounded-3xl glass-panel border border-emerald-signal/30 p-6 sm:p-8 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center text-left">
+        <div className="rounded-3xl glass-panel border border-white/10 p-6 sm:p-8 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center text-left">
           
           <div className="lg:col-span-6 space-y-4">
             <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded bg-emerald-signal/10 text-emerald-signal border border-emerald-signal/30 text-xs font-mono font-bold">

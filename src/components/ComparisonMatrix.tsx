@@ -1,5 +1,5 @@
 import React from 'react';
-import { Shield, Radio, CheckCircle2 } from 'lucide-react';
+import { Shield, Radio, CheckCircle2, Smartphone } from 'lucide-react';
 import { comparisonSpecs } from '../data/specsData';
 import { KineticTextReveal } from './ui/KineticTextReveal';
 
@@ -11,12 +11,12 @@ export const ComparisonMatrix: React.FC = () => {
       <div className="text-left max-w-3xl mb-16">
         <div className="font-mono text-xs text-cyan-neon tracking-wider uppercase mb-3 flex items-center gap-3">
           <Shield className="w-3.5 h-3.5" />
-          <span>How AuraPod Compares</span>
+          <span>Market Comparison</span>
           <span className="w-8 h-[1px] bg-cyan-neon/40 hidden sm:inline-block" />
         </div>
         <h2 className="font-display font-black text-3xl sm:text-5xl text-white tracking-tight mb-4">
           <KineticTextReveal
-            text="Why Alternatives Fail Students"
+            text="How Both Editions Compare"
             splitBy="words"
             direction="up"
             stagger={0.06}
@@ -24,25 +24,32 @@ export const ComparisonMatrix: React.FC = () => {
           />
         </h2>
         <p className="text-slate-400 text-sm sm:text-base">
-          From expensive $600 repeaters with rooftop cabling to omnidirectional dongles that get the exact same 1 bar—see why AuraPod stands alone.
+          See how our two purpose-built models—**AuraPod Pocket Edition** and **AuraPod Room Edition**—compare against raw phones and commercial $600 cell repeaters.
         </p>
       </div>
 
       {/* Comparison Table */}
       <div className="rounded-3xl glass-panel border border-white/10 overflow-hidden shadow-2xl mb-8">
         <div className="overflow-x-auto">
-          <table className="w-full text-left border-collapse">
+          <table className="w-full text-left border-collapse min-w-[700px]">
             <thead>
               <tr className="border-b border-white/10 bg-obsidian-900/90 text-xs font-mono">
                 <th className="p-4 sm:p-5 text-slate-400 font-semibold">METRIC / FEATURE</th>
                 <th className="p-4 sm:p-5 text-slate-400 font-semibold">PHONE ALONE</th>
                 <th className="p-4 sm:p-5 text-slate-400 font-semibold">INDUSTRIAL BOOSTER</th>
-                <th className="p-4 sm:p-5 text-slate-400 font-semibold">PORTABLE MIFI</th>
                 <th className="p-4 sm:p-5 text-cyan-neon font-bold bg-cyan-neon/10 border-l border-r border-cyan-neon/30">
                   <div className="flex items-center gap-1.5">
-                    <Radio className="w-3.5 h-3.5" />
-                    <span>AURAPOD SYSTEM</span>
+                    <Smartphone className="w-3.5 h-3.5" />
+                    <span>POCKET EDITION</span>
                   </div>
+                  <div className="text-[10px] text-cyan-neon/70 font-normal mt-0.5">Everyday Mobile Carry</div>
+                </th>
+                <th className="p-4 sm:p-5 text-emerald-signal font-bold bg-emerald-signal/10 border-r border-emerald-signal/30">
+                  <div className="flex items-center gap-1.5">
+                    <Radio className="w-3.5 h-3.5" />
+                    <span>ROOM EDITION</span>
+                  </div>
+                  <div className="text-[10px] text-emerald-signal/70 font-normal mt-0.5">Dorm &amp; Desk Hub</div>
                 </th>
               </tr>
             </thead>
@@ -55,9 +62,11 @@ export const ComparisonMatrix: React.FC = () => {
                   </td>
                   <td className="p-4 sm:p-5 text-slate-400">{spec.phoneAlone}</td>
                   <td className="p-4 sm:p-5 text-slate-400">{spec.industrialBooster}</td>
-                  <td className="p-4 sm:p-5 text-slate-400">{spec.mifiDongle}</td>
-                  <td className="p-4 sm:p-5 text-emerald-signal font-bold bg-cyan-neon/[0.04] border-l border-r border-cyan-neon/20">
-                    {spec.auraPod}
+                  <td className="p-4 sm:p-5 text-cyan-neon font-bold bg-cyan-neon/[0.04] border-l border-r border-cyan-neon/20">
+                    {spec.auraPodPocket}
+                  </td>
+                  <td className="p-4 sm:p-5 text-emerald-signal font-bold bg-emerald-signal/[0.04] border-r border-emerald-signal/20">
+                    {spec.auraPodRoom}
                   </td>
                 </tr>
               ))}
@@ -68,11 +77,11 @@ export const ComparisonMatrix: React.FC = () => {
         {/* Bottom Takeaway */}
         <div className="p-4 bg-obsidian-950/80 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs font-mono text-slate-400">
           <span>*Tested across 4G LTE Band 3/40 and 5G Sub-6 n78 carrier frequencies.</span>
-          <span className="text-cyan-neon font-bold">100% Student Desk Friendly</span>
+          <span className="text-cyan-neon font-bold">100% Student Desk &amp; Travel Friendly</span>
         </div>
       </div>
 
-      {/* Presentation Takeaway Card (Why AuraPod Wins) */}
+      {/* Presentation Takeaway Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-left font-mono text-xs">
         <div className="p-4 rounded-2xl bg-obsidian-900/60 border border-white/10">
           <div className="flex items-center gap-2 text-cyan-neon font-bold mb-1.5">
@@ -80,7 +89,7 @@ export const ComparisonMatrix: React.FC = () => {
             <span>ZERO DORM LEASE BREACHES</span>
           </div>
           <p className="text-slate-400 text-[11px] leading-relaxed">
-            Unlike industrial repeaters requiring coaxial cable runs through exterior windows, AuraPod sits entirely inside on the student study desk.
+            Unlike commercial repeaters requiring outdoor rooftop drilling and cables, both AuraPod models sit entirely inside your room on your study desk.
           </p>
         </div>
 
@@ -90,17 +99,17 @@ export const ComparisonMatrix: React.FC = () => {
             <span>ZERO FCC REGULATORY RISK</span>
           </div>
           <p className="text-slate-400 text-[11px] leading-relaxed">
-            Passive optical/RF parabolic concentration captures existing scattered waves without emitting unlicensed high-power interference toward base station towers.
+            Directional microwave concentration safely focuses existing scattered signals without radiating noisy high-power interference into cell towers.
           </p>
         </div>
 
         <div className="p-4 rounded-2xl bg-obsidian-900/60 border border-white/10">
           <div className="flex items-center gap-2 text-amber-400 font-bold mb-1.5">
             <CheckCircle2 className="w-4 h-4" />
-            <span>1/20TH THE PRICE POINT</span>
+            <span>GENUINELY STUDENT AFFORDABLE</span>
           </div>
           <p className="text-slate-400 text-[11px] leading-relaxed">
-            Priced at $29 (vs $600 for commercial cellular boosters) with a $9.50 BOM that sustains 67% gross margins for sustainable hardware economics.
+            Priced at $29 for Pocket Edition and $49 for Room Edition—less than a single semester textbook, saving students from missed deadlines.
           </p>
         </div>
       </div>
