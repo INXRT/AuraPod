@@ -108,9 +108,14 @@ export const Hero: React.FC<HeroProps> = ({
             </button>
           </div>
 
-          <div className="hidden sm:flex items-center gap-1.5 text-xs font-mono text-slate-400">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-signal" />
-            <span>Hardware model selected</span>
+          <div className="hidden sm:flex items-center gap-3 text-xs font-mono text-slate-400">
+            <span className="px-2.5 py-1 rounded bg-amber-400/10 border border-amber-400/25 text-amber-300 text-[10px] font-semibold uppercase tracking-wider">
+              Functional Prototype Stage
+            </span>
+            <div className="flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-signal" />
+              <span>Hardware Model Selected</span>
+            </div>
           </div>
         </div>
 

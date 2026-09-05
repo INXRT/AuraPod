@@ -26,10 +26,10 @@ export const Footer: React.FC = () => {
             <span className="font-display font-bold text-lg text-white tracking-tight">AuraPod</span>
           </div>
           <p className="text-slate-400 text-xs leading-relaxed font-sans">
-            Personal portable parabolic RF reflector and resilient campus data caching hub. Built for student academic survival.
+            Personal portable parabolic RF reflector and resilient campus data caching hub. Currently an academic engineering prototype; not commercially available for purchase.
           </p>
           <div className="text-[11px] font-mono text-slate-500">
-            © 2026 AuraPod Technologies. All rights reserved.
+            © 2026 AuraPod Project Team. Academic Prototype.
           </div>
         </div>
 
@@ -105,7 +105,7 @@ export const Footer: React.FC = () => {
 
       <div className="max-w-6xl mx-auto pt-8 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-slate-500">
         <div>
-          © 2026 AuraPod Project Team. Built for University Capstone &amp; Pitch Competitions.
+          © 2026 AuraPod Project Team. Academic Research Prototype • Capstone Demonstration.
         </div>
         <div className="flex items-center gap-1">
           <span>Designed with zero AI slop for real academic impact</span>

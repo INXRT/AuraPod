@@ -40,6 +40,14 @@ export const PricingBento: React.FC = () => {
           Choose the **Pocket Edition** for lightweight everyday campus carry or the **Room Edition** for full-dorm coverage. Never miss an 11:59 PM deadline again.
         </p>
 
+        {/* Prototype Notice Box */}
+        <div className="mt-4 p-3.5 rounded-2xl bg-amber-500/10 border border-amber-500/25 flex items-start gap-3 font-mono text-xs text-slate-300">
+          <span className="text-amber-400 font-bold shrink-0 mt-0.5">⚠️ PROTOTYPE NOTICE:</span>
+          <span>
+            AuraPod is currently a functional engineering prototype and research demonstration. Listed figures reflect <strong>target mass-manufacturing BOM cost targets</strong> ($29 / $49 MSRP). Selecting an edition registers your profile for closed campus beta pilot cohorts (not immediate retail purchase).
+          </span>
+        </div>
+
         {/* Currency Switcher */}
         <div className="flex justify-start mt-6">
           <div className="p-1 rounded-xl bg-obsidian-900 border border-white/10 flex items-center gap-1 text-xs font-mono">
@@ -86,7 +94,7 @@ export const PricingBento: React.FC = () => {
               <span className="font-display font-black text-4xl text-white">
                 {currency === 'USD' ? '$29' : '₹1,999'}
               </span>
-              <span className="text-xs font-mono text-slate-400">/ One-time purchase</span>
+              <span className="text-xs font-mono text-slate-400">/ Target Projected MSRP</span>
             </div>
 
             {/* Feature list */}
@@ -123,7 +131,7 @@ export const PricingBento: React.FC = () => {
               onClick={() => sound.playSuccessChime()}
               className="w-full py-3 rounded-xl font-display font-semibold text-xs sm:text-sm bg-obsidian-900 hover:bg-obsidian-800 border border-white/20 text-white transition-all shadow-sm active:scale-[0.98]"
             >
-              Order Pocket Edition
+              Join Pocket Pilot Waitlist
             </button>
           </div>
         </div>
@@ -152,7 +160,7 @@ export const PricingBento: React.FC = () => {
               <span className="font-display font-black text-4xl text-white">
                 {currency === 'USD' ? '$49' : '₹3,499'}
               </span>
-              <span className="text-xs font-mono text-slate-400">/ Complete Room Hub</span>
+              <span className="text-xs font-mono text-slate-400">/ Target Projected MSRP</span>
             </div>
 
             {/* Feature list */}
@@ -189,7 +197,7 @@ export const PricingBento: React.FC = () => {
               onClick={() => sound.playSuccessChime()}
               className="w-full py-3.5 rounded-xl font-display font-bold text-sm bg-white hover:bg-slate-200 text-slate-950 shadow-md transition-all flex items-center justify-center gap-2 active:scale-[0.98]"
             >
-              <span>Order Room Edition</span>
+              <span>Join Room Pilot Waitlist</span>
               <ArrowRight className="w-4 h-4" />
             </button>
           </div>
@@ -215,7 +223,7 @@ export const PricingBento: React.FC = () => {
               <span className="font-display font-black text-4xl text-white">
                 {currency === 'USD' ? '$69' : '₹4,999'}
               </span>
-              <span className="text-xs font-mono text-slate-400">/ 2-Device Kit</span>
+              <span className="text-xs font-mono text-slate-400">/ Target Projected MSRP</span>
             </div>
 
             {/* Feature list */}
@@ -238,7 +246,7 @@ export const PricingBento: React.FC = () => {
               </li>
               <li className="flex items-center gap-2.5">
                 <Check className="w-4 h-4 text-amber-400 shrink-0" />
-                <span>Priority Campus Overnight Delivery</span>
+                <span>Priority Campus Pilot Delivery</span>
               </li>
             </ul>
           </div>
@@ -248,7 +256,7 @@ export const PricingBento: React.FC = () => {
               onClick={() => sound.playSuccessChime()}
               className="w-full py-3 rounded-xl font-display font-semibold text-xs sm:text-sm bg-obsidian-900 hover:bg-obsidian-800 border border-white/20 text-white transition-all shadow-sm active:scale-[0.98]"
             >
-              Order Duo Bundle
+              Join Campus Pilot Waitlist
             </button>
           </div>
         </div>

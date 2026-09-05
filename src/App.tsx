@@ -27,6 +27,21 @@ export const App: React.FC = () => {
   return (
     <div className="min-h-screen bg-obsidian-950 text-slate-100 font-sans relative selection:bg-cyan-neon/30 selection:text-cyan-neon">
 
+      {/* Engineering Prototype & Research Notice Top Banner */}
+      <div className="relative z-30 bg-obsidian-900/95 border-b border-amber-500/25 py-2 px-4 text-center font-mono text-[11px] text-slate-300 flex items-center justify-center gap-2.5 backdrop-blur-md">
+        <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse shrink-0" />
+        <span>
+          <strong className="text-amber-300 font-semibold uppercase tracking-wider">Engineering Prototype Notice:</strong>{' '}
+          AuraPod is an academic research &amp; capstone prototype. Not currently available for commercial retail purchase.
+        </span>
+        <a
+          href="#pricing"
+          className="text-cyan-neon hover:underline font-semibold ml-1 shrink-0 hidden sm:inline"
+        >
+          View BOM &amp; Pilot Specs &rarr;
+        </a>
+      </div>
+
       {/* Calibrated Photographic Studio Lighting */}
       <StudioBackgroundLighting auraPodActive={auraPodActive} />
 

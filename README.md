@@ -9,6 +9,11 @@
 [![Three.js](https://img.shields.io/badge/Three.js-WebGL_PBR-000000?logo=three.js&logoColor=white)](https://threejs.org/)
 [![FCC Part 15](https://img.shields.io/badge/Compliance-FCC_Part_15_Unlicensed-22C55E)](#regulatory-compliance--rf-safety)
 [![BOM Cost](https://img.shields.io/badge/BOM_COGS-%249.50_to_%2414.20-F59E0B)](#manufacturing-bom--unit-economics)
+[![Status](https://img.shields.io/badge/Status-Academic_Prototype-EAB308)](#prototype--research-status)
+
+> [!IMPORTANT]
+> **Engineering Prototype & Research Proof of Concept Notice**  
+> **AuraPod is currently an academic engineering prototype and capstone research demonstration.** It is **not a commercial product available for consumer retail purchase**. Listed pricing ($29 / $49) represents calculated target Bill of Materials (BOM) cost projections for 5,000-unit mass manufacturing batches. Pilot waitlist submissions enroll participants in future closed university test cohorts.
 
 ---
 
@@ -199,11 +204,30 @@ npm run build
 
 ```
 AuraPod/
-├── assets/                          # Technical animated GIFs & diagrams
+├── .github/                         # GitHub templates & community standards
+│   └── ISSUE_TEMPLATE/
+│       ├── pilot_testing.md         # Campus pilot feedback & telemetry submission
+│       └── bug_report.md            # Visual & 3D WebGL issue report template
+├── assets/                          # Generated technical animated GIFs for documentation
 │   ├── rf-wavefront-focus.gif       # 250mm concrete wall RF focusing animation
 │   ├── deadline-simulator.gif       # 11:59 PM deadline testbed animation
 │   └── edition-anatomy-radar.gif    # Dual-edition hardware comparison animation
-├── src/
+├── docs/                            # Project documentation & pitch deliverables
+│   ├── concept-sketches/            # Early hardware & parabolic mechanism drawings
+│   │   ├── early-concept-sketch-01.jpeg
+│   │   ├── early-concept-sketch-02.jpeg
+│   │   ├── mechanical-dish-sketch-01.jpeg
+│   │   └── mechanical-dish-sketch-02.jpeg
+│   └── pitch/                       # Presentation assets & capstone pitch guides
+│       ├── AuraPod_Pitch_Deck.pptx  # 16:9 widescreen capstone pitch deck
+│       ├── pitch_blueprint.md       # Comprehensive 10-slide outline & speech script
+│       └── pitch_notes.txt          # Technical notes & Q&A defense cheat sheet
+├── public/                          # Static public web assets
+│   └── assets/                      # Production GIF distribution
+├── scripts/                         # Utility & asset generation scripts
+│   ├── generate_deck.py             # Python script generating 16:9 pitch deck
+│   └── generate_gifs.py             # Pillow script rendering technical animated GIFs
+├── src/                             # Application source code
 │   ├── components/
 │   │   ├── AuraPodMesh3D.tsx        # Three.js 3D WebGL model (Pocket Edition)
 │   │   ├── AuraPodRoomMesh3D.tsx    # Three.js 3D WebGL model (Room Edition)
@@ -225,7 +249,8 @@ AuraPod/
 │   ├── types.ts                     # TypeScript edition & telemetry definitions
 │   ├── App.tsx                      # Root application layout
 │   └── index.css                    # Obsidian design system & utilities
-├── generate_gifs.py                 # Pillow script to render animated technical GIFs
+├── .gitignore                       # Node, Vite, and build artifact exclusions
+├── LICENSE                          # MIT open-source license
 ├── package.json                     # Project dependencies & scripts
 ├── tailwind.config.js               # Studio color tokens & elevation shadows
 ├── tsconfig.json                    # TypeScript compiler configuration
