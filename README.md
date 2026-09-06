@@ -19,7 +19,7 @@
 
 ## 🎯 Visual Overview
 
-![AuraPod RF Wavefront Focus Simulation](assets/rf-wavefront-focus.gif)
+![AuraPod RF Wavefront Focus Simulation](docs/assets/rf-wavefront-focus.gif)
 
 AuraPod solves the **"11:59 PM Hostel Dead Zone Crisis"** through a synchronized dual-layer stack:
 1. **Hardware "Signal Lens"**: Directional microwave optics (dual stepped telescopic masts or an 18-stage parabolic metamaterial dish) with an active shielded Low-Noise Amplifier (<1.2 dB NF) lifting link budgets by up to **+41 dB**.
@@ -52,7 +52,7 @@ College dormitories and campus hostels are modern Faraday cages:
 
 ## ⏱️ The 11:59 PM Deadline Testbed
 
-![AuraPod 11:59 PM Deadline Simulator](assets/deadline-simulator.gif)
+![AuraPod 11:59 PM Deadline Simulator](docs/assets/deadline-simulator.gif)
 
 Standard web browsers cancel uploads when TCP sockets disconnect. **AuraQueue** intercepts file uploads and LMS form submissions (Canvas, Moodle, Blackboard, Google Classroom):
 - **Tus Resumable Chunking**: Payloads are sliced into 2–8 MB encrypted chunks held in local `IndexedDB`. If the network flickers, the upload pauses seamlessly without closing the session.
@@ -62,7 +62,7 @@ Standard web browsers cancel uploads when TCP sockets disconnect. **AuraQueue** 
 
 ## ⚡ Two Form Factors. One Resilient Core.
 
-![AuraPod Dual-Edition Hardware Architecture](assets/edition-anatomy-radar.gif)
+![AuraPod Dual-Edition Hardware Architecture](docs/assets/edition-anatomy-radar.gif)
 
 Rather than forcing a one-size-fits-all compromise, AuraPod is engineered as two specialized, distinct editions:
 
@@ -208,25 +208,25 @@ AuraPod/
 │   └── ISSUE_TEMPLATE/
 │       ├── pilot_testing.md         # Campus pilot feedback & telemetry submission
 │       └── bug_report.md            # Visual & 3D WebGL issue report template
-├── assets/                          # Generated technical animated GIFs for documentation
-│   ├── rf-wavefront-focus.gif       # 250mm concrete wall RF focusing animation
-│   ├── deadline-simulator.gif       # 11:59 PM deadline testbed animation
-│   └── edition-anatomy-radar.gif    # Dual-edition hardware comparison animation
-├── docs/                            # Project documentation & pitch deliverables
+├── docs/                            # Project documentation, pitch deliverables & media
+│   ├── assets/                      # Technical animated GIFs for documentation
+│   │   ├── rf-wavefront-focus.gif   # 250mm concrete wall RF focusing simulation
+│   │   ├── deadline-simulator.gif   # 11:59 PM deadline testbed simulation
+│   │   └── edition-anatomy-radar.gif# Dual-edition hardware architecture comparison
 │   ├── concept-sketches/            # Early hardware & parabolic mechanism drawings
 │   │   ├── early-concept-sketch-01.jpeg
 │   │   ├── early-concept-sketch-02.jpeg
 │   │   ├── mechanical-dish-sketch-01.jpeg
 │   │   └── mechanical-dish-sketch-02.jpeg
-│   └── pitch/                       # Presentation assets & capstone pitch guides
-│       ├── AuraPod_Pitch_Deck.pptx  # 16:9 widescreen capstone pitch deck
-│       ├── pitch_blueprint.md       # Comprehensive 10-slide outline & speech script
-│       └── pitch_notes.txt          # Technical notes & Q&A defense cheat sheet
+│   ├── pitch/                       # Presentation assets & capstone pitch guides
+│   │   ├── AuraPod_Pitch_Deck.pptx  # 16:9 widescreen capstone pitch deck
+│   │   ├── pitch_blueprint.md       # Comprehensive 10-slide outline & speech script
+│   │   └── pitch_notes.txt          # Technical notes & Q&A defense cheat sheet
+│   └── scripts/                     # Asset generation & deck synthesis utilities
+│       ├── generate_deck.py         # Python script generating 16:9 pitch deck
+│       └── generate_gifs.py         # Pillow script rendering animated GIFs
 ├── public/                          # Static public web assets
-│   └── assets/                      # Production GIF distribution
-├── scripts/                         # Utility & asset generation scripts
-│   ├── generate_deck.py             # Python script generating 16:9 pitch deck
-│   └── generate_gifs.py             # Pillow script rendering technical animated GIFs
+│   └── favicon.svg                  # SVG browser favicon
 ├── src/                             # Application source code
 │   ├── components/
 │   │   ├── AuraPodMesh3D.tsx        # Three.js 3D WebGL model (Pocket Edition)
@@ -243,17 +243,20 @@ AuraPod/
 │   │   ├── StudioBackgroundLighting # High-CRI 5600K studio background cyc
 │   │   └── RfWaveCanvas.tsx         # Real-time incident microwave wave canvas
 │   ├── utils/
-│   │   └── audioSynthesizer.ts      # Web Audio API parametric sound generator
+│   │   ├── audioSynthesizer.ts      # Web Audio API parametric sound generator
+│   │   └── cn.ts                    # Tailwind class merging utility
 │   ├── data/
 │   │   └── specsData.ts             # Engineering BOMs and comparison specs
 │   ├── types.ts                     # TypeScript edition & telemetry definitions
 │   ├── App.tsx                      # Root application layout
 │   └── index.css                    # Obsidian design system & utilities
 ├── .gitignore                       # Node, Vite, and build artifact exclusions
+├── index.html                       # HTML5 entrypoint & font preconnects
 ├── LICENSE                          # MIT open-source license
 ├── package.json                     # Project dependencies & scripts
 ├── tailwind.config.js               # Studio color tokens & elevation shadows
-├── tsconfig.json                    # TypeScript compiler configuration
+├── tsconfig.json                    # Consolidated TypeScript compiler configuration
+├── vite.config.ts                   # Vite bundler configuration with inlined PostCSS
 └── README.md                        # Complete technical documentation
 ```
 

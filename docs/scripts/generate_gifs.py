@@ -2,12 +2,10 @@ import math
 import os
 from PIL import Image, ImageDraw, ImageFont
 
-ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-ASSETS_DIR = os.path.join(ROOT_DIR, 'assets')
-PUBLIC_ASSETS_DIR = os.path.join(ROOT_DIR, 'public', 'assets')
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+ASSETS_DIR = os.path.abspath(os.path.join(SCRIPT_DIR, '..', 'assets'))
 
 os.makedirs(ASSETS_DIR, exist_ok=True)
-os.makedirs(PUBLIC_ASSETS_DIR, exist_ok=True)
 
 # Helper to load basic font or default
 try:
@@ -139,9 +137,8 @@ def generate_rf_wave_gif():
 
         frames.append(img)
 
-    for out_dir in [ASSETS_DIR, PUBLIC_ASSETS_DIR]:
-        frames[0].save(os.path.join(out_dir, 'rf-wavefront-focus.gif'), save_all=True, append_images=frames[1:], duration=75, loop=0)
-    print("Saved rf-wavefront-focus.gif to assets & public/assets")
+    frames[0].save(os.path.join(ASSETS_DIR, 'rf-wavefront-focus.gif'), save_all=True, append_images=frames[1:], duration=75, loop=0)
+    print("Saved rf-wavefront-focus.gif to docs/assets")
 
 # -------------------------------------------------------------
 # GIF 2: 11:59 PM Deadline Simulator (assets/deadline-simulator.gif)
@@ -224,9 +221,8 @@ def generate_deadline_gif():
 
         frames.append(img)
 
-    for out_dir in [ASSETS_DIR, PUBLIC_ASSETS_DIR]:
-        frames[0].save(os.path.join(out_dir, 'deadline-simulator.gif'), save_all=True, append_images=frames[1:], duration=90, loop=0)
-    print("Saved deadline-simulator.gif to assets & public/assets")
+    frames[0].save(os.path.join(ASSETS_DIR, 'deadline-simulator.gif'), save_all=True, append_images=frames[1:], duration=90, loop=0)
+    print("Saved deadline-simulator.gif to docs/assets")
 
 # -------------------------------------------------------------
 # GIF 3: Dual Edition Architecture & Radar (assets/edition-anatomy-radar.gif)
@@ -314,9 +310,8 @@ def generate_edition_anatomy_gif():
 
         frames.append(img)
 
-    for out_dir in [ASSETS_DIR, PUBLIC_ASSETS_DIR]:
-        frames[0].save(os.path.join(out_dir, 'edition-anatomy-radar.gif'), save_all=True, append_images=frames[1:], duration=90, loop=0)
-    print("Saved edition-anatomy-radar.gif to assets & public/assets")
+    frames[0].save(os.path.join(ASSETS_DIR, 'edition-anatomy-radar.gif'), save_all=True, append_images=frames[1:], duration=90, loop=0)
+    print("Saved edition-anatomy-radar.gif to docs/assets")
 
 if __name__ == '__main__':
     generate_rf_wave_gif()

@@ -680,7 +680,8 @@ def create_deck():
         "With AuraPod, we turn 1 bar of frustration into academic flow. Thank you, and we are ready for your questions!'"
     )
 
-    output_path = r"c:\Users\Deepansh\Desktop\websites\AuraPod\AuraPod_Pitch_Deck.pptx"
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    output_path = os.path.join(script_dir, "..", "pitch", "AuraPod_Pitch_Deck.pptx")
     prs.save(output_path)
     print(f"Presentation saved successfully to: {output_path}")
 
