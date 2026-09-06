@@ -275,7 +275,6 @@ AuraPod/
 
 ## 👥 Team & Acknowledgments
 
-Built for university capstone engineering showcases, pitch competitions, and hardware innovation demonstrations.
+Built for university capstone engineering showcase, pitch competition, and hardware innovation demonstrations.
 
-*Designed with zero AI slop for genuine academic impact.*  
-*© 2026 AuraPod Technologies. All rights reserved.*
+*© 2026 AuraPod. All rights reserved.*
