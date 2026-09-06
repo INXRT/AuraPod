@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { AlertTriangle, CheckCircle2, Clock, UploadCloud, RefreshCw, FileText, Download, ShieldCheck, Terminal, ChevronDown, ChevronUp } from 'lucide-react';
 import confetti from 'canvas-confetti';
-import { sound } from '../utils/audioSynthesizer';
 import { KineticTextReveal } from './ui/KineticTextReveal';
 
 interface SubmissionSimulatorProps {
@@ -45,7 +44,6 @@ export const SubmissionSimulator: React.FC<SubmissionSimulatorProps> = ({ auraPo
     setIsSubmitting(true);
     setSubmissionStatus('idle');
     setUploadProgress(0);
-    sound.playToggleClick();
 
     if (!auraPodActive) {
       // Dead Zone Failure Path
@@ -83,7 +81,6 @@ export const SubmissionSimulator: React.FC<SubmissionSimulatorProps> = ({ auraPo
             setIsSubmitting(false);
             setSubmissionStatus('failed');
             setShakeScreen(true);
-            sound.playErrorAlarm();
             setTimeout(() => setShakeScreen(false), 500);
           }, 600);
         }
@@ -129,7 +126,6 @@ export const SubmissionSimulator: React.FC<SubmissionSimulatorProps> = ({ auraPo
           setTimeout(() => {
             setIsSubmitting(false);
             setSubmissionStatus('success');
-            sound.playSuccessChime();
             try {
               confetti({
                 particleCount: 80,
@@ -249,7 +245,6 @@ Status:             ON-TIME SUBMISSION VERIFIED
             {/* Tactile Mode Switch Button */}
             <button
               onClick={() => {
-                sound.playToggleClick();
                 onToggleAuraPod();
               }}
               className={`px-4 py-2 rounded-lg text-xs font-mono font-semibold tracking-wide border transition-all shadow-sm active:scale-[0.98] ${
@@ -457,7 +452,6 @@ Status:             ON-TIME SUBMISSION VERIFIED
                     <button
                       onClick={() => {
                         onToggleAuraPod();
-                        sound.playToggleClick();
                       }}
                       className="inline-flex items-center gap-1.5 text-xs font-mono font-black text-cyan-neon hover:underline"
                     >

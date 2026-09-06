@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Radio, Smartphone } from 'lucide-react';
+import { Smartphone } from 'lucide-react';
 import { AuraPodMesh3D } from './AuraPodMesh3D';
 import { AuraPodRoomMesh3D } from './AuraPodRoomMesh3D';
-import { sound } from '../utils/audioSynthesizer';
+import { AuraPodLogo } from './ui/AuraPodLogo';
 import { KineticTextReveal } from './ui/KineticTextReveal';
 import { AuraPodEdition } from '../types';
 
@@ -174,7 +174,6 @@ export const ScrollHardware3D: React.FC<ScrollHardware3DProps> = ({
   // Reset step index when edition changes
   const handleEditionTab = (ed: AuraPodEdition) => {
     if (ed === activeEdition) return;
-    sound.playRadarChirp(1.1);
     setEdition(ed);
     setActiveStepIndex(0);
     setUserFoldOverride(null);
@@ -194,7 +193,6 @@ export const ScrollHardware3D: React.FC<ScrollHardware3DProps> = ({
           if (activeStepIndex !== idx) {
             setActiveStepIndex(idx);
             setUserFoldOverride(null);
-            sound.playRadarChirp(0.9 + idx * 0.15);
           }
         }
       });
@@ -205,7 +203,6 @@ export const ScrollHardware3D: React.FC<ScrollHardware3DProps> = ({
   }, [activeStepIndex]);
 
   const handleStepClick = (idx: number) => {
-    sound.playToggleClick();
     setActiveStepIndex(idx);
     setUserFoldOverride(null);
     const target = stepRefs.current[idx];
@@ -215,7 +212,6 @@ export const ScrollHardware3D: React.FC<ScrollHardware3DProps> = ({
   };
 
   const handleToggleFold = () => {
-    sound.playToggleClick();
     setUserFoldOverride(!isFolded);
   };
 
@@ -225,7 +221,7 @@ export const ScrollHardware3D: React.FC<ScrollHardware3DProps> = ({
       {/* Section Header */}
       <div className="text-left max-w-3xl mb-12">
         <div className="font-mono text-xs text-cyan-neon tracking-wider uppercase mb-3 flex items-center gap-3">
-          <Radio className="w-3.5 h-3.5" />
+          <AuraPodLogo className="w-3.5 h-3.5" />
           <span>Hardware Engineering</span>
           <span className="w-8 h-[1px] bg-cyan-neon/40 hidden sm:inline-block" />
         </div>
@@ -264,7 +260,7 @@ export const ScrollHardware3D: React.FC<ScrollHardware3DProps> = ({
                 : 'text-slate-400 hover:text-white'
             }`}
           >
-            <Radio className="w-3.5 h-3.5" />
+            <AuraPodLogo className="w-3.5 h-3.5 text-cyan-neon" />
             <span>Room Edition Anatomy</span>
             <span className={`text-[10px] ${activeEdition === 'room' ? 'text-slate-700' : 'opacity-60'}`}>(Parabolic Dish)</span>
           </button>

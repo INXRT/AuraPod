@@ -364,16 +364,18 @@ export const AuraPodRoomMesh3D: React.FC<AuraPodRoomMesh3DProps> = ({
     dishAssembly.add(focalHalo);
 
     // -------------------------------------------------------------
-    // 6. Interactive Mouse & Touch Drag Controls
+    // 6. Interactive Mouse & Touch Drag Controls (Draggy Traction)
     // -------------------------------------------------------------
     let isDragging = false;
     let previousMousePosition = { x: 0, y: 0 };
-    let targetRotation = { x: 0.2, y: -0.45 };
-    let currentRotation = { x: 0.2, y: -0.45 };
+    let dragVelocity = { x: 0, y: 0 };
+    let targetRotation = { x: 0.18, y: -0.38 };
+    let currentRotation = { x: 0.18, y: -0.38 };
 
     const onMouseDown = (e: MouseEvent) => {
       if (!interactive) return;
       isDragging = true;
+      dragVelocity = { x: 0, y: 0 };
       previousMousePosition = { x: e.clientX, y: e.clientY };
     };
 
@@ -382,8 +384,12 @@ export const AuraPodRoomMesh3D: React.FC<AuraPodRoomMesh3DProps> = ({
       const deltaX = e.clientX - previousMousePosition.x;
       const deltaY = e.clientY - previousMousePosition.y;
 
-      targetRotation.y += deltaX * 0.007;
-      targetRotation.x += deltaY * 0.007;
+      const vx = deltaX * 0.007;
+      const vy = deltaY * 0.007;
+      dragVelocity = { x: vx, y: vy };
+
+      targetRotation.y += vx;
+      targetRotation.x += vy;
       targetRotation.x = Math.max(-0.6, Math.min(0.8, targetRotation.x));
 
       previousMousePosition = { x: e.clientX, y: e.clientY };
@@ -396,6 +402,7 @@ export const AuraPodRoomMesh3D: React.FC<AuraPodRoomMesh3DProps> = ({
     const onTouchStart = (e: TouchEvent) => {
       if (!interactive || e.touches.length === 0) return;
       isDragging = true;
+      dragVelocity = { x: 0, y: 0 };
       previousMousePosition = { x: e.touches[0].clientX, y: e.touches[0].clientY };
     };
 
@@ -404,8 +411,12 @@ export const AuraPodRoomMesh3D: React.FC<AuraPodRoomMesh3DProps> = ({
       const deltaX = e.touches[0].clientX - previousMousePosition.x;
       const deltaY = e.touches[0].clientY - previousMousePosition.y;
 
-      targetRotation.y += deltaX * 0.008;
-      targetRotation.x += deltaY * 0.008;
+      const vx = deltaX * 0.008;
+      const vy = deltaY * 0.008;
+      dragVelocity = { x: vx, y: vy };
+
+      targetRotation.y += vx;
+      targetRotation.x += vy;
       targetRotation.x = Math.max(-0.6, Math.min(0.8, targetRotation.x));
 
       previousMousePosition = { x: e.touches[0].clientX, y: e.touches[0].clientY };
@@ -437,7 +448,7 @@ export const AuraPodRoomMesh3D: React.FC<AuraPodRoomMesh3DProps> = ({
     window.addEventListener('resize', onResize);
 
     // -------------------------------------------------------------
-    // 7. Animation Loop
+    // 7. Animation Loop (Zero Bounce, Snappy Mechanical Response)
     // -------------------------------------------------------------
     let animationId: number;
     let clock = new THREE.Clock();
@@ -446,23 +457,27 @@ export const AuraPodRoomMesh3D: React.FC<AuraPodRoomMesh3DProps> = ({
     const animate = () => {
       const elapsed = clock.getElapsedTime();
 
-      // Smooth lerp rotation toward target
-      currentRotation.x += (targetRotation.x - currentRotation.x) * 0.08;
-      currentRotation.y += (targetRotation.y - currentRotation.y) * 0.08;
-
-      // When not dragging, add gentle floating drift
+      // Inertial drag deceleration
       if (!isDragging) {
-        productGroup.rotation.y = currentRotation.y + Math.sin(elapsed * 0.5) * 0.05;
-        productGroup.rotation.x = currentRotation.x + Math.cos(elapsed * 0.4) * 0.025;
-        productGroup.position.y = Math.sin(elapsed * 0.8) * 0.07;
-      } else {
-        productGroup.rotation.x = currentRotation.x;
-        productGroup.rotation.y = currentRotation.y;
+        dragVelocity.x *= 0.86;
+        dragVelocity.y *= 0.86;
+        targetRotation.y += dragVelocity.x;
+        targetRotation.x += dragVelocity.y;
+        targetRotation.x = Math.max(-0.6, Math.min(0.8, targetRotation.x));
       }
 
-      // Smooth Folding Interpolation
+      // Snappy, draggy lerp rotation toward target
+      currentRotation.x += (targetRotation.x - currentRotation.x) * 0.16;
+      currentRotation.y += (targetRotation.y - currentRotation.y) * 0.16;
+
+      // Solid, grounded orientation (no bounce, no float wobble)
+      productGroup.rotation.x = currentRotation.x;
+      productGroup.rotation.y = currentRotation.y;
+      productGroup.position.y = 0;
+
+      // Snappy mechanical folding interpolation
       const targetFold = stateRef.current.isFolded ? 1.45 : 0;
-      currentFoldAngle += (targetFold - currentFoldAngle) * 0.06;
+      currentFoldAngle += (targetFold - currentFoldAngle) * 0.18;
       hingeGroup.rotation.x = currentFoldAngle;
 
       // LED Beacon pulsing state

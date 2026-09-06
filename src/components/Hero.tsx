@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { Radio, ShieldCheck, Plus, Minus, Smartphone } from 'lucide-react';
+import { ShieldCheck, Plus, Minus, Smartphone } from 'lucide-react';
 import { RfWaveCanvas } from './RfWaveCanvas';
 import { AuraPodMesh3D } from './AuraPodMesh3D';
 import { AuraPodRoomMesh3D } from './AuraPodRoomMesh3D';
-import { sound } from '../utils/audioSynthesizer';
 import { KineticTextReveal } from './ui/KineticTextReveal';
+import { AuraPodLogo } from './ui/AuraPodLogo';
 import { AuraPodEdition } from '../types';
 
 interface HeroProps {
@@ -28,27 +28,18 @@ export const Hero: React.FC<HeroProps> = ({
   const isFolded = activeEdition === 'pocket' ? isPocketFolded : isRoomFolded;
 
   const handleScaleIncrease = () => {
-    sound.playToggleClick();
     setModelScale((prev) => Math.min(1.15, Number((prev + 0.08).toFixed(2))));
   };
 
   const handleScaleDecrease = () => {
-    sound.playToggleClick();
     setModelScale((prev) => Math.max(0.48, Number((prev - 0.08).toFixed(2))));
   };
 
   const handleToggle = () => {
-    sound.playToggleClick();
     onToggleAuraPod();
-    if (!auraPodActive) {
-      sound.playSuccessChime();
-    } else {
-      sound.playErrorAlarm();
-    }
   };
 
   const handleFoldToggle = () => {
-    sound.playToggleClick();
     if (activeEdition === 'pocket') {
       setIsPocketFolded((prev) => !prev);
     } else {
@@ -58,7 +49,6 @@ export const Hero: React.FC<HeroProps> = ({
 
   const handleEditionChange = (ed: AuraPodEdition) => {
     if (ed === activeEdition) return;
-    sound.playRadarChirp(ed === 'pocket' ? 1.0 : 1.25);
     onSelectEdition(ed);
   };
 
@@ -98,7 +88,7 @@ export const Hero: React.FC<HeroProps> = ({
                   : 'text-slate-400 hover:text-white'
               }`}
             >
-              <Radio className="w-3.5 h-3.5" />
+              <AuraPodLogo className="w-3.5 h-3.5 text-cyan-neon" />
               <span>Room Edition</span>
               <span className={`hidden sm:inline text-[10px] px-1.5 py-0.2 rounded font-normal ${
                 activeEdition === 'room' ? 'bg-slate-200 text-slate-800' : 'bg-white/5 text-slate-400'
@@ -284,7 +274,7 @@ export const Hero: React.FC<HeroProps> = ({
         {/* Standalone Sub-label Strip */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-xs font-mono text-slate-400 pt-3 border-t border-white/10">
           <div className="flex items-center gap-2">
-            <Radio className="w-3.5 h-3.5 text-sky-400" />
+            <AuraPodLogo className="w-3.5 h-3.5 text-sky-400" />
             <span className="text-white font-medium">
               {activeEdition === 'pocket' ? 'Pocket Edition Hardware:' : 'Room Edition Hardware:'}
             </span>

@@ -1,6 +1,5 @@
 import React, { useState, useRef } from 'react';
 import { Compass, Database, HardDrive, Share2, CheckCircle2, Crosshair, Sparkles } from 'lucide-react';
-import { sound } from '../utils/audioSynthesizer';
 import { KineticTextReveal } from './ui/KineticTextReveal';
 
 export const SoftwareAuraOS: React.FC = () => {
@@ -31,16 +30,9 @@ export const SoftwareAuraOS: React.FC = () => {
     const alignment = Math.max(10, Math.min(100, Math.round((1 - dist / maxDist) * 100)));
 
     if (dist < 28) {
-      if (!lockStatus.locked) {
-        sound.playRadarChirp(2.0);
-        sound.playSuccessChime();
-      }
       setLockStatus({ locked: true, percentage: 100 });
     } else {
       setLockStatus({ locked: false, percentage: alignment });
-      if (Math.random() < 0.25) {
-        sound.playRadarChirp(0.6 + alignment / 100);
-      }
     }
   };
 
@@ -72,10 +64,7 @@ export const SoftwareAuraOS: React.FC = () => {
       <div className="flex justify-center mb-10">
         <div className="p-1 rounded-2xl bg-obsidian-900/90 border border-white/10 shadow-inner flex flex-wrap gap-1 sm:gap-1.5">
           <button
-            onClick={() => {
-              setActiveTab('aurascope');
-              sound.playToggleClick();
-            }}
+            onClick={() => setActiveTab('aurascope')}
             className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-display font-semibold text-xs sm:text-sm transition-all ${
               activeTab === 'aurascope'
                 ? 'bg-white text-slate-950 shadow-sm'
@@ -87,10 +76,7 @@ export const SoftwareAuraOS: React.FC = () => {
           </button>
 
           <button
-            onClick={() => {
-              setActiveTab('auraqueue');
-              sound.playToggleClick();
-            }}
+            onClick={() => setActiveTab('auraqueue')}
             className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-display font-semibold text-xs sm:text-sm transition-all ${
               activeTab === 'auraqueue'
                 ? 'bg-white text-slate-950 shadow-sm'
@@ -102,10 +88,7 @@ export const SoftwareAuraOS: React.FC = () => {
           </button>
 
           <button
-            onClick={() => {
-              setActiveTab('campusvault');
-              sound.playToggleClick();
-            }}
+            onClick={() => setActiveTab('campusvault')}
             className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-display font-semibold text-xs sm:text-sm transition-all ${
               activeTab === 'campusvault'
                 ? 'bg-white text-slate-950 shadow-sm'

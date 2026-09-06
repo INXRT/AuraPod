@@ -1,5 +1,6 @@
 import React from 'react';
-import { Radio, Github, ExternalLink, ArrowUp } from 'lucide-react';
+import { Github, ExternalLink, ArrowUp } from 'lucide-react';
+import { AuraPodLogo } from './ui/AuraPodLogo';
 
 export const Footer: React.FC = () => {
   const scrollToTop = () => {
@@ -16,7 +17,7 @@ export const Footer: React.FC = () => {
           <div className="md:col-span-6 space-y-4">
             <div className="flex items-center gap-2.5">
               <div className="w-8 h-8 rounded-lg bg-cyan-neon/15 border border-cyan-neon/30 flex items-center justify-center text-cyan-neon shadow-[0_0_15px_rgba(6,182,212,0.15)]">
-                <Radio className="w-4 h-4" />
+                <AuraPodLogo className="w-4 h-4 text-cyan-neon" />
               </div>
               <span className="font-display font-bold text-xl text-white tracking-tight">AuraPod</span>
               <span className="px-2 py-0.5 rounded-full text-[10px] font-mono uppercase tracking-wider bg-white/5 border border-white/10 text-slate-400">

@@ -1,6 +1,7 @@
 import React from 'react';
-import { Shield, Radio, CheckCircle2, Smartphone } from 'lucide-react';
+import { Shield, CheckCircle2, Smartphone } from 'lucide-react';
 import { comparisonSpecs } from '../data/specsData';
+import { AuraPodLogo } from './ui/AuraPodLogo';
 import { KineticTextReveal } from './ui/KineticTextReveal';
 
 export const ComparisonMatrix: React.FC = () => {
@@ -46,7 +47,7 @@ export const ComparisonMatrix: React.FC = () => {
                 </th>
                 <th className="p-4 sm:p-5 text-emerald-signal font-bold bg-emerald-signal/10 border-r border-emerald-signal/30">
                   <div className="flex items-center gap-1.5">
-                    <Radio className="w-3.5 h-3.5" />
+                    <AuraPodLogo className="w-3.5 h-3.5 text-emerald-signal" />
                     <span>ROOM EDITION</span>
                   </div>
                   <div className="text-[10px] text-emerald-signal/70 font-normal mt-0.5">Dorm &amp; Desk Hub</div>

@@ -628,11 +628,13 @@ export const AuraPodMesh3D: React.FC<AuraPodMesh3DProps> = ({
     // -------------------------------------------------------------
     let isDragging = false;
     let previousMousePosition = { x: 0, y: 0 };
+    let dragVelocity = { x: 0, y: 0 };
     let currentRotation = { x: 0.32, y: -0.38 };
 
     const onMouseDown = (e: MouseEvent) => {
       if (!interactive) return;
       isDragging = true;
+      dragVelocity = { x: 0, y: 0 };
       previousMousePosition = { x: e.clientX, y: e.clientY };
     };
 
@@ -641,8 +643,12 @@ export const AuraPodMesh3D: React.FC<AuraPodMesh3DProps> = ({
       const deltaX = e.clientX - previousMousePosition.x;
       const deltaY = e.clientY - previousMousePosition.y;
 
-      currentRotation.y += deltaX * 0.007;
-      currentRotation.x += deltaY * 0.007;
+      const vx = deltaX * 0.007;
+      const vy = deltaY * 0.007;
+      dragVelocity = { x: vx, y: vy };
+
+      currentRotation.y += vx;
+      currentRotation.x += vy;
       currentRotation.x = Math.max(-0.4, Math.min(0.75, currentRotation.x));
 
       previousMousePosition = { x: e.clientX, y: e.clientY };
@@ -660,6 +666,7 @@ export const AuraPodMesh3D: React.FC<AuraPodMesh3DProps> = ({
     const onTouchStart = (e: TouchEvent) => {
       if (!interactive || e.touches.length === 0) return;
       isDragging = true;
+      dragVelocity = { x: 0, y: 0 };
       previousMousePosition = { x: e.touches[0].clientX, y: e.touches[0].clientY };
     };
 
@@ -668,8 +675,12 @@ export const AuraPodMesh3D: React.FC<AuraPodMesh3DProps> = ({
       const deltaX = e.touches[0].clientX - previousMousePosition.x;
       const deltaY = e.touches[0].clientY - previousMousePosition.y;
 
-      currentRotation.y += deltaX * 0.008;
-      currentRotation.x += deltaY * 0.008;
+      const vx = deltaX * 0.008;
+      const vy = deltaY * 0.008;
+      dragVelocity = { x: vx, y: vy };
+
+      currentRotation.y += vx;
+      currentRotation.x += vy;
       currentRotation.x = Math.max(-0.4, Math.min(0.75, currentRotation.x));
 
       previousMousePosition = { x: e.touches[0].clientX, y: e.touches[0].clientY };
@@ -695,7 +706,7 @@ export const AuraPodMesh3D: React.FC<AuraPodMesh3DProps> = ({
     window.addEventListener('resize', onResize);
 
     // -------------------------------------------------------------
-    // 7. REALISTIC DAMPED SPRING HARMONIC PHYSICS SYSTEM
+    // 7. SNAPPY CRITICALLY-DAMPED MECHANICAL SPRINGS (ZERO BOUNCE)
     // -------------------------------------------------------------
     class SpringSimulation {
       val: number;
@@ -704,7 +715,7 @@ export const AuraPodMesh3D: React.FC<AuraPodMesh3DProps> = ({
       k: number;
       damp: number;
 
-      constructor(init: number, k = 140, damp = 16) {
+      constructor(init: number, k = 280, damp = 34) {
         this.val = init;
         this.target = init;
         this.vel = 0;
@@ -720,11 +731,11 @@ export const AuraPodMesh3D: React.FC<AuraPodMesh3DProps> = ({
       }
     }
 
-    // Initialize physical springs with tuned mass/damping for mechanical snaps
-    const lidSpring = new SpringSimulation(isFolded ? 0 : -1.85, 130, 16);
-    const pitchSpring = new SpringSimulation(isFolded ? Math.PI / 2 : 0.08, 110, 14);
-    const spreadSpring = new SpringSimulation(isFolded ? 0 : 0.38, 120, 15);
-    const telescopeSpring = new SpringSimulation(isFolded ? 0.02 : 1.0, 95, 14);
+    // Initialize physical springs with tuned critical damping for firm, snappy mechanical latching
+    const lidSpring = new SpringSimulation(isFolded ? 0 : -1.85, 300, 36);
+    const pitchSpring = new SpringSimulation(isFolded ? Math.PI / 2 : 0.08, 280, 34);
+    const spreadSpring = new SpringSimulation(isFolded ? 0 : 0.38, 260, 32);
+    const telescopeSpring = new SpringSimulation(isFolded ? 0.02 : 1.0, 240, 31);
 
     let animationId: number;
     let clock = new THREE.Clock();
@@ -736,7 +747,7 @@ export const AuraPodMesh3D: React.FC<AuraPodMesh3DProps> = ({
 
       // Dynamic scale interpolation
       const targetScale = stateRef.current.scale ?? 0.88;
-      currentScale += (targetScale - currentScale) * 0.08;
+      currentScale += (targetScale - currentScale) * 0.12;
       productGroup.scale.set(currentScale, currentScale, currentScale);
 
       // Target orientation based on highlighted part
@@ -745,11 +756,15 @@ export const AuraPodMesh3D: React.FC<AuraPodMesh3DProps> = ({
       let targetPosZ = 4.7;
       let targetBaseY = -0.22;
 
-      // Ultra-calm micro-drift
-      const subtleFloat = Math.sin(elapsed * 0.3) * 0.008;
-
       const part = stateRef.current.highlightPart;
       if (!isDragging) {
+        // Draggy, weighted inertial damping
+        dragVelocity.x *= 0.86;
+        dragVelocity.y *= 0.86;
+        currentRotation.y += dragVelocity.x;
+        currentRotation.x += dragVelocity.y;
+        currentRotation.x = Math.max(-0.4, Math.min(0.75, currentRotation.x));
+
         if (part === 'dish') {
           targetRotX = 0.22;
           targetRotY = -0.28;
@@ -772,21 +787,22 @@ export const AuraPodMesh3D: React.FC<AuraPodMesh3DProps> = ({
           targetBaseY = -0.2;
         }
 
-        productGroup.rotation.y += (targetRotY - productGroup.rotation.y) * 0.04;
-        productGroup.rotation.x += (targetRotX - productGroup.rotation.x) * 0.04;
-        productGroup.position.y += ((targetBaseY + subtleFloat) - productGroup.position.y) * 0.04;
-        camera.position.z += (targetPosZ - camera.position.z) * 0.04;
+        productGroup.rotation.y += (targetRotY - productGroup.rotation.y) * 0.14;
+        productGroup.rotation.x += (targetRotX - productGroup.rotation.x) * 0.14;
+        productGroup.position.y += (targetBaseY - productGroup.position.y) * 0.14;
+        camera.position.z += (targetPosZ - camera.position.z) * 0.12;
       } else {
         productGroup.rotation.x = currentRotation.x;
         productGroup.rotation.y = currentRotation.y;
+        productGroup.position.y = targetBaseY;
       }
 
       // =============================================================
-      // PHYSICAL SPRING SEQUENCING WITH INERTIAL OVERSHOOT
+      // PHYSICAL SPRING SEQUENCING WITH FIRM MECHANICAL SETTLING
       // =============================================================
       const folded = stateRef.current.isFolded;
 
-      // 1. Lid Spring: pops open briskly, snaps shut firmly
+      // 1. Lid Spring: snaps open briskly, snaps shut firmly without bounce
       lidSpring.target = folded ? 0 : -1.85;
       lidSpring.update(dt);
       lidAssembly.rotation.x = lidSpring.val;
@@ -795,7 +811,7 @@ export const AuraPodMesh3D: React.FC<AuraPodMesh3DProps> = ({
       if (!folded && lidSpring.val < -0.35) {
         pitchSpring.target = 0.08; // Swing upright into +Y
       } else if (folded) {
-        pitchSpring.target = Math.PI / 2; // Fold forward into internal chassis slot!
+        pitchSpring.target = Math.PI / 2; // Fold forward into internal chassis slot
       }
       pitchSpring.update(dt);
 
@@ -824,13 +840,11 @@ export const AuraPodMesh3D: React.FC<AuraPodMesh3DProps> = ({
       }
       spreadSpring.update(dt);
 
-      // Natural physical compliance: subtle micro-sway on extended metal whip tips
-      const tipSway = (!folded && ext > 0.8) ? Math.sin(elapsed * 2.2) * 0.004 : 0;
-
-      leftAntenna.root.rotation.x = pitchSpring.val + tipSway;
+      // Rigid precision antenna stance (zero wobble/tip sway)
+      leftAntenna.root.rotation.x = pitchSpring.val;
       leftAntenna.root.rotation.z = spreadSpring.val;
 
-      rightAntenna.root.rotation.x = pitchSpring.val - tipSway;
+      rightAntenna.root.rotation.x = pitchSpring.val;
       rightAntenna.root.rotation.z = -spreadSpring.val;
 
       // Completely seal antennas out of sight when lid is shut in pocket mode

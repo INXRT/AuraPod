@@ -77,15 +77,15 @@ function DockItem({
   // Scale based on distance - closer = larger
   const scale = useTransform(distance, [-magneticDistance, 0, magneticDistance], [1, maxScale, 1]);
 
-  // Apply spring physics for smooth animation
-  const springConfig = { damping: 18, stiffness: 320, mass: 0.4 };
+  // Apply spring physics for snappy, draggy mechanical feel (no bouncy oscillation)
+  const springConfig = { damping: 28, stiffness: 440, mass: 0.3 };
   const smoothScale = useSpring(scale, springConfig);
 
   // Calculate the size based on scale
   const size = useTransform(smoothScale, (s) => s * iconSize);
 
-  // Floating effect
-  const y = useTransform(smoothScale, (s) => (s - 1) * -12);
+  // Subtle lift without bounce
+  const y = useTransform(smoothScale, (s) => (s - 1) * -3);
   const smoothY = useSpring(y, springConfig);
 
   return (

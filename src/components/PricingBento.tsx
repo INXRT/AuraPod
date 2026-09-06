@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Check, Zap, ArrowRight, DollarSign, PieChart, TrendingUp, Users, Smartphone, Radio, Sparkles } from 'lucide-react';
+import { Check, Zap, ArrowRight, DollarSign, PieChart, TrendingUp, Users, Smartphone, Sparkles } from 'lucide-react';
 import { pocketBomItems, roomBomItems } from '../data/specsData';
-import { sound } from '../utils/audioSynthesizer';
+import { AuraPodLogo } from './ui/AuraPodLogo';
 import { KineticTextReveal } from './ui/KineticTextReveal';
 
 export const PricingBento: React.FC = () => {
@@ -9,7 +9,6 @@ export const PricingBento: React.FC = () => {
   const [activeEconomicsTab, setActiveEconomicsTab] = useState<'pocket-bom' | 'room-bom' | 'market'>('pocket-bom');
 
   const toggleCurrency = (cur: 'USD' | 'INR') => {
-    sound.playToggleClick();
     setCurrency(cur);
   };
 
@@ -127,12 +126,13 @@ export const PricingBento: React.FC = () => {
           </div>
 
           <div className="mt-8 pt-6 border-t border-white/10">
-            <button
-              onClick={() => sound.playSuccessChime()}
-              className="w-full py-3 rounded-xl font-display font-semibold text-xs sm:text-sm bg-obsidian-900 hover:bg-obsidian-800 border border-white/20 text-white transition-all shadow-sm active:scale-[0.98]"
+            <a
+              href="#hardware-3d"
+              className="w-full py-3 rounded-xl font-display font-semibold text-xs sm:text-sm bg-obsidian-900 hover:bg-obsidian-800 border border-white/20 text-white transition-all shadow-sm active:scale-[0.98] flex items-center justify-center gap-2 group"
             >
-              Join Pocket Pilot Waitlist
-            </button>
+              <span>Inspect Pocket CAD &amp; Subsystems</span>
+              <ArrowRight className="w-3.5 h-3.5 text-cyan-neon group-hover:translate-x-0.5 transition-transform" />
+            </a>
           </div>
         </div>
 
@@ -145,7 +145,7 @@ export const PricingBento: React.FC = () => {
           <div>
             <div className="flex items-center justify-between gap-2 mb-3">
               <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/25 font-semibold uppercase tracking-wider flex items-center gap-1">
-                <Radio className="w-3 h-3" /> ROOM SCALE
+                <AuraPodLogo className="w-3 h-3 text-cyan-neon" /> ROOM SCALE
               </span>
               <span className="text-[10px] font-mono text-slate-400">Desk &amp; Window Hub</span>
             </div>
@@ -193,13 +193,13 @@ export const PricingBento: React.FC = () => {
           </div>
 
           <div className="mt-8 pt-6 border-t border-white/10">
-            <button
-              onClick={() => sound.playSuccessChime()}
-              className="w-full py-3.5 rounded-xl font-display font-bold text-sm bg-white hover:bg-slate-200 text-slate-950 shadow-md transition-all flex items-center justify-center gap-2 active:scale-[0.98]"
+            <a
+              href="#hardware-3d"
+              className="w-full py-3.5 rounded-xl font-display font-bold text-sm bg-white hover:bg-slate-200 text-slate-950 shadow-md transition-all flex items-center justify-center gap-2 active:scale-[0.98] group"
             >
-              <span>Join Room Pilot Waitlist</span>
-              <ArrowRight className="w-4 h-4" />
-            </button>
+              <span>Inspect Room Parabolic Reflector</span>
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+            </a>
           </div>
         </div>
 
@@ -246,18 +246,21 @@ export const PricingBento: React.FC = () => {
               </li>
               <li className="flex items-center gap-2.5">
                 <Check className="w-4 h-4 text-amber-400 shrink-0" />
-                <span>Priority Campus Pilot Delivery</span>
+                <span>Priority Academic Research Delivery</span>
               </li>
             </ul>
           </div>
 
           <div className="mt-8 pt-6 border-t border-white/10">
-            <button
-              onClick={() => sound.playSuccessChime()}
-              className="w-full py-3 rounded-xl font-display font-semibold text-xs sm:text-sm bg-obsidian-900 hover:bg-obsidian-800 border border-white/20 text-white transition-all shadow-sm active:scale-[0.98]"
+            <a
+              href="https://github.com/INXRT/AuraPod"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full py-3 rounded-xl font-display font-semibold text-xs sm:text-sm bg-obsidian-900 hover:bg-obsidian-800 border border-white/20 text-white transition-all shadow-sm active:scale-[0.98] flex items-center justify-center gap-2 group"
             >
-              Join Campus Pilot Waitlist
-            </button>
+              <span>Open-Source Hardware Schematics</span>
+              <ArrowRight className="w-3.5 h-3.5 text-amber-400 group-hover:translate-x-0.5 transition-transform" />
+            </a>
           </div>
         </div>
 
@@ -275,10 +278,7 @@ export const PricingBento: React.FC = () => {
 
           <div className="flex flex-wrap items-center gap-1.5 p-1 rounded-xl bg-obsidian-900/90 border border-white/10 shadow-inner">
             <button
-              onClick={() => {
-                sound.playToggleClick();
-                setActiveEconomicsTab('pocket-bom');
-              }}
+              onClick={() => setActiveEconomicsTab('pocket-bom')}
               className={`px-3 py-1.5 rounded-lg font-semibold transition-all ${
                 activeEconomicsTab === 'pocket-bom'
                   ? 'bg-white text-slate-950 shadow-sm'
@@ -288,10 +288,7 @@ export const PricingBento: React.FC = () => {
               Pocket BOM ($9.50)
             </button>
             <button
-              onClick={() => {
-                sound.playToggleClick();
-                setActiveEconomicsTab('room-bom');
-              }}
+              onClick={() => setActiveEconomicsTab('room-bom')}
               className={`px-3 py-1.5 rounded-lg font-semibold transition-all ${
                 activeEconomicsTab === 'room-bom'
                   ? 'bg-white text-slate-950 shadow-sm'
@@ -301,10 +298,7 @@ export const PricingBento: React.FC = () => {
               Room BOM ($14.20)
             </button>
             <button
-              onClick={() => {
-                sound.playToggleClick();
-                setActiveEconomicsTab('market');
-              }}
+              onClick={() => setActiveEconomicsTab('market')}
               className={`px-3 py-1.5 rounded-lg font-semibold transition-all ${
                 activeEconomicsTab === 'market'
                   ? 'bg-white text-slate-950 shadow-sm'

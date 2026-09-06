@@ -1,19 +1,16 @@
 import React, { useState } from 'react';
 import { 
-  Radio, 
   Clock, 
   Layers, 
   Compass, 
   ShieldCheck, 
   Zap, 
-  Volume2, 
-  VolumeX, 
   Wifi,
   WifiOff,
   Smartphone
 } from 'lucide-react';
 import { MagneticDock, DockItemData } from './ui/MagneticDock';
-import { sound } from '../utils/audioSynthesizer';
+import { AuraPodLogo } from './ui/AuraPodLogo';
 import { AuraPodEdition } from '../types';
 
 interface NavigationDockProps {
@@ -29,11 +26,9 @@ export const NavigationDock: React.FC<NavigationDockProps> = ({
   activeEdition = 'pocket',
   onToggleEdition,
 }) => {
-  const [soundOn, setSoundOn] = useState(true);
-  const [activeSection, setActiveSection] = useState<string>('hero');
+  const [activeSection, setActiveSection] = useState<string>('top');
 
   const scrollTo = (id: string) => {
-    sound.playToggleClick();
     setActiveSection(id);
     if (id === 'top') {
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -45,29 +40,15 @@ export const NavigationDock: React.FC<NavigationDockProps> = ({
     }
   };
 
-  const handleToggleSound = () => {
-    const newState = sound.toggleSound();
-    setSoundOn(newState);
-    if (newState) {
-      sound.playSuccessChime();
-    }
-  };
-
   const handleToggleBoost = () => {
-    sound.playToggleClick();
     onToggleAuraPod();
-    if (!auraPodActive) {
-      sound.playSuccessChime();
-    } else {
-      sound.playErrorAlarm();
-    }
   };
 
   const dockItems: DockItemData[] = [
     {
       id: 'home',
-      label: 'Home / 3D Pod',
-      icon: <Radio className="w-5 h-5 text-cyan-neon" />,
+      label: 'AuraPod Overview',
+      icon: <AuraPodLogo className="w-5 h-5 text-cyan-neon" glow />,
       onClick: () => scrollTo('top'),
       isActive: activeSection === 'top',
     },
@@ -81,7 +62,7 @@ export const NavigationDock: React.FC<NavigationDockProps> = ({
     {
       id: 'hardware-3d',
       label: '3D Anatomy',
-      icon: activeEdition === 'pocket' ? <Smartphone className="w-5 h-5 text-cyan-neon" /> : <Radio className="w-5 h-5 text-cyan-neon" />,
+      icon: activeEdition === 'pocket' ? <Smartphone className="w-5 h-5 text-cyan-neon" /> : <AuraPodLogo className="w-5 h-5 text-cyan-neon" />,
       onClick: () => scrollTo('hardware-3d'),
       isActive: activeSection === 'hardware-3d',
     },
@@ -109,7 +90,7 @@ export const NavigationDock: React.FC<NavigationDockProps> = ({
     },
     {
       id: 'pricing',
-      label: 'Pricing & BOM',
+      label: 'Specs & BOM',
       icon: <Zap className="w-5 h-5 text-amber-300 fill-amber-300/30" />,
       onClick: () => scrollTo('pricing'),
       isActive: activeSection === 'pricing',
@@ -117,15 +98,9 @@ export const NavigationDock: React.FC<NavigationDockProps> = ({
     ...(onToggleEdition ? [{
       id: 'edition',
       label: activeEdition === 'pocket' ? 'Switch to Room Edition' : 'Switch to Pocket Edition',
-      icon: activeEdition === 'pocket' ? <Smartphone className="w-5 h-5 text-cyan-neon" /> : <Radio className="w-5 h-5 text-emerald-signal" />,
+      icon: activeEdition === 'pocket' ? <AuraPodLogo className="w-5 h-5 text-emerald-signal" /> : <Smartphone className="w-5 h-5 text-cyan-neon" />,
       onClick: onToggleEdition,
     }] : []),
-    {
-      id: 'audio',
-      label: soundOn ? 'Mute Audio Synthesizer' : 'Unmute Audio Synthesizer',
-      icon: soundOn ? <Volume2 className="w-5 h-5 text-cyan-neon" /> : <VolumeX className="w-5 h-5 text-slate-500" />,
-      onClick: handleToggleSound,
-    },
     {
       id: 'boost',
       label: auraPodActive ? 'AuraPod Active (4 Bars)' : 'AuraPod Off (1 Bar)',
@@ -138,9 +113,9 @@ export const NavigationDock: React.FC<NavigationDockProps> = ({
   return (
     <MagneticDock
       items={dockItems}
-      iconSize={48}
-      maxScale={1.45}
-      magneticDistance={120}
+      iconSize={46}
+      maxScale={1.3}
+      magneticDistance={90}
       showLabels={true}
       position="bottom"
       variant="glass"

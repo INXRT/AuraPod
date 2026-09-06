@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Cpu, Layers, Zap, Radio, Sliders, Shield, Battery, CheckCircle2, Smartphone } from 'lucide-react';
-import { sound } from '../utils/audioSynthesizer';
+import { Cpu, Layers, Zap, Sliders, Shield, Battery, CheckCircle2, Smartphone } from 'lucide-react';
+import { AuraPodLogo } from './ui/AuraPodLogo';
 import { KineticTextReveal } from './ui/KineticTextReveal';
 
 export const HardwareShowcase: React.FC = () => {
@@ -10,9 +10,6 @@ export const HardwareShowcase: React.FC = () => {
   const handleAngleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = Number(e.target.value);
     setDishAngle(val);
-    if (val % 8 === 0) {
-      sound.playRadarChirp(0.8 + (val / 90));
-    }
   };
 
   const handleBatteryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -55,7 +52,7 @@ export const HardwareShowcase: React.FC = () => {
           <div>
             <div className="flex items-center justify-between gap-4 mb-4">
               <div className="flex items-center gap-2 text-cyan-neon text-xs font-mono font-bold uppercase">
-                <Radio className="w-4 h-4" />
+                <AuraPodLogo className="w-4 h-4 text-cyan-neon" />
                 <span>Room Edition Concentrator</span>
               </div>
               <span className="px-2.5 py-1 rounded bg-cyan-neon/10 text-cyan-neon border border-cyan-neon/25 font-mono text-xs font-bold">
