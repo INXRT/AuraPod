@@ -21,10 +21,9 @@ export const PricingBento: React.FC = () => {
       
       {/* Section Header */}
       <div className="text-left max-w-3xl mb-16">
-        <div className="font-mono text-xs text-emerald-signal tracking-wider uppercase mb-3 flex items-center gap-3">
-          <Zap className="w-3.5 h-3.5" />
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.04] border border-white/10 text-xs font-sans font-medium text-slate-300 mb-4">
+          <Zap className="w-3.5 h-3.5 text-emerald-400" />
           <span>Product Lineup &amp; Hardware Pricing</span>
-          <span className="w-8 h-[1px] bg-emerald-signal/40 hidden sm:inline-block" />
         </div>
         <h2 className="font-display font-black text-3xl sm:text-5xl text-white tracking-tight mb-4">
           <KineticTextReveal
@@ -40,8 +39,8 @@ export const PricingBento: React.FC = () => {
         </p>
 
         {/* Prototype Notice Box */}
-        <div className="mt-4 p-3.5 rounded-2xl bg-amber-500/10 border border-amber-500/25 flex items-start gap-3 font-mono text-xs text-slate-300">
-          <span className="text-amber-400 font-bold shrink-0 mt-0.5">⚠️ PROTOTYPE NOTICE:</span>
+        <div className="mt-4 p-3.5 rounded-2xl bg-amber-500/10 border border-amber-500/25 flex items-start gap-3 text-xs text-slate-300">
+          <span className="text-amber-400 font-semibold shrink-0 mt-0.5">⚠️ PROTOTYPE NOTICE:</span>
           <span>
             AuraPod is currently a functional engineering prototype and research demonstration. Listed figures reflect <strong>target mass-manufacturing BOM cost targets</strong> ($29 / $49 MSRP). Selecting an edition registers your profile for closed campus beta pilot cohorts (not immediate retail purchase).
           </span>
@@ -49,10 +48,10 @@ export const PricingBento: React.FC = () => {
 
         {/* Currency Switcher */}
         <div className="flex justify-start mt-6">
-          <div className="p-1 rounded-xl bg-obsidian-900 border border-white/10 flex items-center gap-1 text-xs font-mono">
+          <div className="p-1 rounded-xl bg-obsidian-900 border border-white/10 flex items-center gap-1 text-xs font-sans">
             <button
               onClick={() => toggleCurrency('USD')}
-              className={`px-3 py-1.5 rounded-lg transition-all ${
+              className={`px-3 py-1.5 rounded-lg font-medium transition-all ${
                 currency === 'USD' ? 'bg-white text-slate-950 font-bold shadow-sm' : 'text-slate-400 hover:text-white'
               }`}
             >
@@ -60,7 +59,7 @@ export const PricingBento: React.FC = () => {
             </button>
             <button
               onClick={() => toggleCurrency('INR')}
-              className={`px-3 py-1.5 rounded-lg transition-all ${
+              className={`px-3 py-1.5 rounded-lg font-medium transition-all ${
                 currency === 'INR' ? 'bg-white text-slate-950 font-bold shadow-sm' : 'text-slate-400 hover:text-white'
               }`}
             >
@@ -270,16 +269,16 @@ export const PricingBento: React.FC = () => {
       <div className="max-w-4xl mx-auto rounded-3xl glass-panel border border-white/10 p-6 sm:p-8 text-left">
         
         {/* Header with Switcher Tabs */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-4 border-b border-white/10 mb-6 font-mono text-xs">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-4 border-b border-white/10 mb-6 text-xs">
           <div className="flex items-center gap-2">
             <DollarSign className="w-4 h-4 text-emerald-signal" />
-            <span className="text-white font-bold uppercase">Manufacturing BOM &amp; Economics</span>
+            <span className="text-white font-semibold font-sans">Manufacturing BOM &amp; Economics</span>
           </div>
 
-          <div className="flex flex-wrap items-center gap-1.5 p-1 rounded-xl bg-obsidian-900/90 border border-white/10 shadow-inner">
+          <div className="flex flex-wrap items-center gap-1.5 p-1 rounded-xl bg-obsidian-900/90 border border-white/10 shadow-inner font-sans">
             <button
               onClick={() => setActiveEconomicsTab('pocket-bom')}
-              className={`px-3 py-1.5 rounded-lg font-semibold transition-all ${
+              className={`px-3 py-1.5 rounded-lg font-medium transition-all ${
                 activeEconomicsTab === 'pocket-bom'
                   ? 'bg-white text-slate-950 shadow-sm'
                   : 'text-slate-400 hover:text-white'

@@ -220,10 +220,9 @@ export const ScrollHardware3D: React.FC<ScrollHardware3DProps> = ({
       
       {/* Section Header */}
       <div className="text-left max-w-3xl mb-12">
-        <div className="font-mono text-xs text-cyan-neon tracking-wider uppercase mb-3 flex items-center gap-3">
-          <AuraPodLogo className="w-3.5 h-3.5" />
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.04] border border-white/10 text-xs font-sans font-medium text-slate-300 mb-4">
+          <AuraPodLogo className="w-3.5 h-3.5 text-cyan-neon" />
           <span>Hardware Engineering</span>
-          <span className="w-8 h-[1px] bg-cyan-neon/40 hidden sm:inline-block" />
         </div>
         <h2 className="font-display font-black text-3xl sm:text-5xl text-white tracking-tight mb-4">
           <KineticTextReveal
@@ -238,12 +237,12 @@ export const ScrollHardware3D: React.FC<ScrollHardware3DProps> = ({
           Explore the internal engineering of both AuraPod models. Switch between the ultra-portable **Pocket Edition** and the high-gain **Room Edition** to inspect their components in 3D.
         </p>
         {/* Subsystem Edition Switcher Tabs */}
-        <div className="inline-flex items-center p-1 bg-obsidian-900 border border-white/10 rounded-xl shadow-inner">
+        <div className="inline-flex items-center p-1 bg-obsidian-900 border border-white/10 rounded-xl shadow-inner font-sans">
           <button
             onClick={() => handleEditionTab('pocket')}
-            className={`px-4 py-2 rounded-lg font-mono text-xs font-semibold transition-all flex items-center gap-2 ${
+            className={`px-4 py-2 rounded-lg text-xs font-medium transition-all flex items-center gap-2 ${
               activeEdition === 'pocket'
-                ? 'bg-white text-slate-950 shadow-sm'
+                ? 'bg-white text-slate-950 font-bold shadow-sm'
                 : 'text-slate-400 hover:text-white'
             }`}
           >
@@ -254,9 +253,9 @@ export const ScrollHardware3D: React.FC<ScrollHardware3DProps> = ({
 
           <button
             onClick={() => handleEditionTab('room')}
-            className={`px-4 py-2 rounded-lg font-mono text-xs font-semibold transition-all flex items-center gap-2 ${
+            className={`px-4 py-2 rounded-lg text-xs font-medium transition-all flex items-center gap-2 ${
               activeEdition === 'room'
-                ? 'bg-white text-slate-950 shadow-sm'
+                ? 'bg-white text-slate-950 font-bold shadow-sm'
                 : 'text-slate-400 hover:text-white'
             }`}
           >
@@ -308,6 +307,7 @@ export const ScrollHardware3D: React.FC<ScrollHardware3DProps> = ({
                 highlightPart={activeSubsystem.id}
                 interactive={true}
                 showBadge={true}
+                scale={0.52}
                 className="w-full h-full"
               />
             ) : (
@@ -319,6 +319,7 @@ export const ScrollHardware3D: React.FC<ScrollHardware3DProps> = ({
                 highlightPart={activeSubsystem.id}
                 interactive={true}
                 showBadge={true}
+                scale={0.52}
                 className="w-full h-full"
               />
             )}

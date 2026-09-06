@@ -453,9 +453,15 @@ export const AuraPodRoomMesh3D: React.FC<AuraPodRoomMesh3DProps> = ({
     let animationId: number;
     let clock = new THREE.Clock();
     let currentFoldAngle = 0; // 0 = Deployed (radar tilt), ~1.45 = Folded flat
+    let currentScale = stateRef.current.scale ?? 0.62;
 
     const animate = () => {
       const elapsed = clock.getElapsedTime();
+
+      // Dynamic scale interpolation
+      const targetScale = stateRef.current.scale ?? 0.62;
+      currentScale += (targetScale - currentScale) * 0.14;
+      productGroup.scale.set(currentScale, currentScale, currentScale);
 
       // Inertial drag deceleration
       if (!isDragging) {
@@ -517,10 +523,6 @@ export const AuraPodRoomMesh3D: React.FC<AuraPodRoomMesh3DProps> = ({
         rimMat.color.setHex(0x64748b);
         metalHingeMat.color.setHex(0x475569);
       }
-
-      // Smooth scale lerp
-      const targetScale = stateRef.current.scale ?? 0.85;
-      productGroup.scale.lerp(new THREE.Vector3(targetScale, targetScale, targetScale), 0.1);
 
       renderer.render(scene, camera);
       animationId = requestAnimationFrame(animate);

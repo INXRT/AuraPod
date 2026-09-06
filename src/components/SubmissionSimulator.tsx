@@ -171,10 +171,9 @@ Status:             ON-TIME SUBMISSION VERIFIED
       
       {/* Section Header */}
       <div className="text-left max-w-3xl mb-12">
-        <div className="font-mono text-xs text-amber-400 tracking-wider uppercase mb-3 flex items-center gap-3">
-          <Clock className="w-3.5 h-3.5" />
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.04] border border-white/10 text-xs font-sans font-medium text-slate-300 mb-4">
+          <Clock className="w-3.5 h-3.5 text-amber-400" />
           <span>Deadline Simulation</span>
-          <span className="w-8 h-[1px] bg-amber-400/40 hidden sm:inline-block" />
         </div>
         <h2 className="font-display font-black text-3xl sm:text-5xl text-white tracking-tight mb-4">
           <KineticTextReveal

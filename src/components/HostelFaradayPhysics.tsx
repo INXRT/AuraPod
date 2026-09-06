@@ -18,10 +18,9 @@ export const HostelFaradayPhysics: React.FC<HostelFaradayPhysicsProps> = ({
       
       {/* Section Header */}
       <div className="text-left max-w-3xl mb-12">
-        <div className="font-mono text-xs text-cyan-neon tracking-wider uppercase mb-3 flex items-center gap-3">
-          <Layers className="w-3.5 h-3.5" />
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.04] border border-white/10 text-xs font-sans font-medium text-slate-300 mb-4">
+          <Layers className="w-3.5 h-3.5 text-sky-400" />
           <span>The Problem: Concrete &amp; Rebar</span>
-          <span className="w-8 h-[1px] bg-cyan-neon/40 hidden sm:inline-block" />
         </div>
         <h2 className="font-display font-black text-3xl sm:text-5xl text-white tracking-tight mb-4">
           <KineticTextReveal
@@ -41,13 +40,13 @@ export const HostelFaradayPhysics: React.FC<HostelFaradayPhysicsProps> = ({
       <div className="rounded-2xl bg-obsidian-950 border border-white/15 p-6 sm:p-8 shadow-card-elevation text-left relative overflow-hidden">
         
         {/* Toolbar with Material Selector */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-4 border-b border-white/10 mb-6 font-mono text-xs">
-          <div className="flex items-center gap-2">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-4 border-b border-white/10 mb-6 text-xs">
+          <div className="flex items-center gap-2 font-sans font-semibold text-white">
             <span className="w-2 h-2 rounded-full bg-cyan-neon" />
-            <span className="text-white font-bold uppercase">Wall Signal Penetration Model</span>
+            <span>Wall Signal Penetration Model</span>
           </div>
 
-          <div className="flex items-center gap-1.5 p-1 rounded-xl bg-obsidian-900 border border-white/10 shadow-inner">
+          <div className="flex items-center gap-1.5 p-1 rounded-xl bg-obsidian-900 border border-white/10 shadow-inner font-sans">
             {[
               { id: 'concrete', label: '250mm Concrete (-32 dB)' },
               { id: 'brick', label: 'Standard Brick (-18 dB)' },
@@ -56,7 +55,7 @@ export const HostelFaradayPhysics: React.FC<HostelFaradayPhysicsProps> = ({
               <button
                 key={item.id}
                 onClick={() => setWallType(item.id as any)}
-                className={`px-3 py-1 rounded-lg font-semibold transition-all ${
+                className={`px-3 py-1 rounded-lg font-medium transition-all ${
                   wallType === item.id
                     ? 'bg-white text-slate-950 shadow-sm'
                     : 'text-slate-400 hover:text-white'

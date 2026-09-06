@@ -126,7 +126,7 @@ export const Footer: React.FC = () => {
         </div>
 
         {/* Bottom Bar with attribution and copyright */}
-        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-slate-500">
+        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-sans text-slate-500">
           <div>
             &copy; 2026 AuraPod. Open-source engineering capstone.
           </div>
@@ -137,7 +137,7 @@ export const Footer: React.FC = () => {
               href="https://github.com/INXRT"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.03] border border-white/10 hover:border-cyan-neon/40 hover:bg-cyan-neon/10 hover:text-cyan-neon text-slate-300 text-xs font-mono transition-all duration-300 group shadow-sm hover:shadow-[0_0_15px_rgba(6,182,212,0.15)]"
+              className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.03] border border-white/10 hover:border-cyan-neon/40 hover:bg-cyan-neon/10 hover:text-cyan-neon text-slate-300 text-xs font-sans transition-all duration-300 group shadow-sm hover:shadow-[0_0_15px_rgba(6,182,212,0.15)]"
             >
               <span className="text-slate-400 group-hover:text-slate-300">Made by</span>
               <span className="font-semibold text-white group-hover:text-cyan-neon tracking-wide">INXRT</span>

@@ -41,10 +41,9 @@ export const SoftwareAuraOS: React.FC = () => {
       
       {/* Section Header */}
       <div className="text-left max-w-3xl mb-16">
-        <div className="font-mono text-xs text-emerald-signal tracking-wider uppercase mb-3 flex items-center gap-3">
-          <Sparkles className="w-3.5 h-3.5" />
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.04] border border-white/10 text-xs font-sans font-medium text-slate-300 mb-4">
+          <Sparkles className="w-3.5 h-3.5 text-emerald-400" />
           <span>Companion Software &amp; Offline Protection</span>
-          <span className="w-8 h-[1px] bg-emerald-signal/40 hidden sm:inline-block" />
         </div>
         <h2 className="font-display font-black text-3xl sm:text-5xl text-white tracking-tight mb-4">
           <KineticTextReveal

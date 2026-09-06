@@ -10,10 +10,9 @@ export const ComparisonMatrix: React.FC = () => {
       
       {/* Section Header */}
       <div className="text-left max-w-3xl mb-16">
-        <div className="font-mono text-xs text-cyan-neon tracking-wider uppercase mb-3 flex items-center gap-3">
-          <Shield className="w-3.5 h-3.5" />
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.04] border border-white/10 text-xs font-sans font-medium text-slate-300 mb-4">
+          <Shield className="w-3.5 h-3.5 text-cyan-400" />
           <span>Market Comparison</span>
-          <span className="w-8 h-[1px] bg-cyan-neon/40 hidden sm:inline-block" />
         </div>
         <h2 className="font-display font-black text-3xl sm:text-5xl text-white tracking-tight mb-4">
           <KineticTextReveal

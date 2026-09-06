@@ -66,7 +66,7 @@ export const Hero: React.FC<HeroProps> = ({
           <div className="inline-flex items-center p-1 bg-obsidian-900/90 border border-white/10 rounded-xl shadow-inner">
             <button
               onClick={() => handleEditionChange('pocket')}
-              className={`px-3.5 py-1.5 rounded-lg font-mono text-xs font-semibold transition-all flex items-center gap-2 ${
+              className={`px-3.5 py-1.5 rounded-lg font-sans text-xs font-medium transition-all flex items-center gap-2 ${
                 activeEdition === 'pocket'
                   ? 'bg-white text-slate-950 shadow-sm'
                   : 'text-slate-400 hover:text-white'
@@ -74,7 +74,7 @@ export const Hero: React.FC<HeroProps> = ({
             >
               <Smartphone className="w-3.5 h-3.5" />
               <span>Pocket Edition</span>
-              <span className={`hidden sm:inline text-[10px] px-1.5 py-0.2 rounded font-normal ${
+              <span className={`hidden sm:inline text-[10px] px-1.5 py-0.5 rounded font-normal ${
                 activeEdition === 'pocket' ? 'bg-slate-200 text-slate-800' : 'bg-white/5 text-slate-400'
               }`}>
                 Dual Masts
@@ -82,7 +82,7 @@ export const Hero: React.FC<HeroProps> = ({
             </button>
             <button
               onClick={() => handleEditionChange('room')}
-              className={`px-3.5 py-1.5 rounded-lg font-mono text-xs font-semibold transition-all flex items-center gap-2 ${
+              className={`px-3.5 py-1.5 rounded-lg font-sans text-xs font-medium transition-all flex items-center gap-2 ${
                 activeEdition === 'room'
                   ? 'bg-white text-slate-950 shadow-sm'
                   : 'text-slate-400 hover:text-white'
@@ -90,7 +90,7 @@ export const Hero: React.FC<HeroProps> = ({
             >
               <AuraPodLogo className="w-3.5 h-3.5 text-cyan-neon" />
               <span>Room Edition</span>
-              <span className={`hidden sm:inline text-[10px] px-1.5 py-0.2 rounded font-normal ${
+              <span className={`hidden sm:inline text-[10px] px-1.5 py-0.5 rounded font-normal ${
                 activeEdition === 'room' ? 'bg-slate-200 text-slate-800' : 'bg-white/5 text-slate-400'
               }`}>
                 Parabolic Dish
@@ -98,13 +98,13 @@ export const Hero: React.FC<HeroProps> = ({
             </button>
           </div>
 
-          <div className="hidden sm:flex items-center gap-3 text-xs font-mono text-slate-400">
-            <span className="px-2.5 py-1 rounded bg-amber-400/10 border border-amber-400/25 text-amber-300 text-[10px] font-semibold uppercase tracking-wider">
+          <div className="hidden sm:flex items-center gap-3 text-xs font-sans text-slate-400">
+            <span className="px-2.5 py-0.5 rounded-full bg-amber-400/10 border border-amber-400/25 text-amber-300 text-[11px] font-medium">
               Functional Prototype Stage
             </span>
             <div className="flex items-center gap-1.5">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-signal" />
-              <span>Hardware Model Selected</span>
+              <span className="text-slate-400">Hardware Model Selected</span>
             </div>
           </div>
         </div>
